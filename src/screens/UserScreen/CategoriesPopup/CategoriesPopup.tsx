@@ -4,7 +4,23 @@ import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const CategoriesPopup = ({command}) => {
-  const categories = ['Sport', 'Geography', 'Flags'];
+  const categories = [
+    'Sport',
+    'Geography',
+    'Flags',
+    'Sport',
+    'Geography',
+    'Flags',
+    'Sport',
+    'Geography',
+    'Flags',
+    'Sport',
+    'Geography',
+    'Flags',
+    'Sport',
+    'Geography',
+    'Flags',
+  ];
 
   const list = categories.map((category, id) => {
     return (

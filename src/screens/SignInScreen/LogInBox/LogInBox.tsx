@@ -22,18 +22,18 @@ const LogInBox = ({navigation}) => {
           <Input
             value={username}
             placeholder="Enter username..."
-            setUsername={setUsername}
+            setState={setUsername}
           />
         </View>
         <View className="m-2 px-[20px] bg-white rounded-[60px]">
           <Input
             value={password}
             placeholder="Enter password..."
-            setPassword={setPassword}
+            setState={setPassword}
           />
         </View>
         <AppButton
-          onPress={() => navigation.navigate('Home')}
+          onPress={command}
           text="Sign In"
           textStyle="text-white text-[18px]"
           styles="bg-primary mt-[20px] mx-auto w-[100px] h-[50px] rounded-[60px]"
