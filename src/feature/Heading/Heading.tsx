@@ -12,7 +12,7 @@ const Heading = () => {
       <Icon name="local-post-office" size={30} color="#FFC93C" />
       <AppButton
         text="Log out"
-        textStyle="text-white text-[20px]"
+        textStyle="text-primary text-[20px]"
         styles="bg-secondary w-[90px] rounded-[60px]"
       />
     </View>

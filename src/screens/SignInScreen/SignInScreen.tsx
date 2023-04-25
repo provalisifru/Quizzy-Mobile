@@ -7,14 +7,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const SignInScreen = () => {
   return (
-    <ScrollView className="bg-primary">
-      <View className="flex flex-row items-center justify-around mb-[60px] mt-[40px]">
+    <View className="bg-primary h-full">
+      <View className="flex flex-row  justify-center items-center m-[70px]">
         <Icon name="question-circle" size={40} color="#FFC93C" />
-        <Title styles="text-secondary text-[40px]" />
+        <Title styles="text-secondary text-[40px] mx-5" />
         <Icon name="question-circle" size={40} color="#FFC93C" />
       </View>
       <LogInBox />
-    </ScrollView>
+    </View>
   );
 };
 

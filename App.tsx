@@ -1,17 +1,17 @@
 /// <reference types="nativewind/types" />
 
 import React from 'react';
-import {ScrollView, Text} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 
 import SignIn from './src/screens/SignInScreen/SignInScreen';
 import UserScreen from './src/screens/UserScreen/UserScreen';
 
 export const App = () => {
   return (
-    <ScrollView>
-      <SignIn />
+    <View className="h-full">
+      {/* <SignIn /> */}
       <UserScreen />
-    </ScrollView>
+    </View>
   );
 };
 

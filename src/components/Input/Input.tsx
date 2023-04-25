@@ -15,6 +15,7 @@ const Input = ({placeholder, styles}: InputProps) => {
         value={text}
         placeholder={placeholder}
         className={`${styles}`}
+        placeholderTextColor={'#AAAAAA'}
       />
     </View>
   );
