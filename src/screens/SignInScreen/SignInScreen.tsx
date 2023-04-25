@@ -5,7 +5,7 @@ import Title from '../../components/Title/Title';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export const SignInScreen = () => {
+export const SignInScreen = ({navigation}) => {
   return (
     <View className="bg-primary h-full">
       <View className="flex flex-row  justify-center items-center m-[70px]">
@@ -13,7 +13,7 @@ export const SignInScreen = () => {
         <Title styles="text-secondary text-[40px] mx-5" />
         <Icon name="question-circle" size={40} color="#FFC93C" />
       </View>
-      <LogInBox />
+      <LogInBox navigation={navigation} />
     </View>
   );
 };

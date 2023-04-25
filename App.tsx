@@ -1,18 +1,10 @@
 /// <reference types="nativewind/types" />
 
 import React from 'react';
-import {ScrollView, Text, View} from 'react-native';
-
-import SignIn from './src/screens/SignInScreen/SignInScreen';
-import UserScreen from './src/screens/UserScreen/UserScreen';
+import LoginNavigator from './src/screens/SignInScreen/LoginNavigator/LoginNavigator';
 
 export const App = () => {
-  return (
-    <View className="h-full">
-      {/* <SignIn /> */}
-      <UserScreen />
-    </View>
-  );
+  return <LoginNavigator />;
 };
 
 export default App;
