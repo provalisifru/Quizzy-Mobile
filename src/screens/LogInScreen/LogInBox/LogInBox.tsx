@@ -3,7 +3,11 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../../components/Input/Input';
 import AppButton from '../../../components/Button/AppButton';
 
-const LogInBox = ({navigation}) => {
+interface LogInBoxProps {
+  navigation: any;
+}
+
+const LogInBox = ({navigation}: LogInBoxProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

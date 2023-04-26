@@ -3,7 +3,11 @@ import {ScrollView, View, Text, TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const CategoriesPopup = ({command}) => {
+interface CategoriesPopUp {
+  command: any;
+}
+
+const CategoriesPopup = ({command}: CategoriesPopUp) => {
   const categories = [
     'Sport',
     'Geography',
