@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {ScrollView, Modal, View} from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
@@ -48,9 +48,10 @@ const UserScreen = ({navigation}: UserScreenProps) => {
     });
   };
 
-  const cardList = cards.map(card => {
+  const cardList = cards.map((card, id) => {
     return (
       <Cards
+        identifier={id}
         onPress={() => openQuiz(card)}
         category={card.category}
         title={card.title}

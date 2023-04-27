@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import Input from '../../../components/Input/Input';
 import AppButton from '../../../components/Button/AppButton';
+
+import logIn from '../../../api/methods';
 
 interface LogInBoxProps {
   navigation: any;
@@ -12,8 +14,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const [password, setPassword] = useState('');
 
   const command = () => {
-    console.log('THIS IS USERNAME', username);
-    console.log('THIS IS PASSWORD', password);
+    logIn(username, password);
   };
 
   return (

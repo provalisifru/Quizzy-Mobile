@@ -1,4 +1,3 @@
-import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 
 import CardImage from '../../CardImage';
@@ -8,11 +7,18 @@ interface CardsProps {
   description?: string;
   category?: string;
   onPress?: any;
+  identifier?: any;
 }
 
-const Cards = ({title, description, category, onPress}: CardsProps) => {
+const Cards = ({
+  title,
+  description,
+  category,
+  onPress,
+  identifier,
+}: CardsProps) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} key={identifier}>
       <View className="flex flex-column items-center bg-secondary h-[290px] m-3 p-4 rounded-xl">
         <CardImage
           classNameText="w-[90%] h-[150px] rounded-xl"
