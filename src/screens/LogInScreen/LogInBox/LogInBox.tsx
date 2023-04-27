@@ -1,9 +1,8 @@
 import {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import Input from '../../../components/Input/Input';
 import AppButton from '../../../components/Button/AppButton';
-
-import logIn from '../../../api/methods';
+import api from '../../../api/methods';
 
 interface LogInBoxProps {
   navigation: any;
@@ -14,7 +13,15 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const [password, setPassword] = useState('');
 
   const command = () => {
-    logIn(username, password);
+    api.logIn(username, password).then(response => {
+      if (response?.status === 200) {
+        navigation.navigate('Home');
+      } else {
+        Alert.alert('Error', response, [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ]);
+      }
+    });
   };
 
   return (

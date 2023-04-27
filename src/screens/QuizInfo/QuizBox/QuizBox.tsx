@@ -9,14 +9,14 @@ import InstructionsPopup from '../InstructionsPopup/InstructionsPopup';
 interface QuizBoxProps {
   navigation?: any;
   category?: string;
-  title?: string;
+  name?: string;
   description?: string;
   time?: any;
 }
 
 const QuizBox = ({
   category,
-  title,
+  name,
   description,
   time,
   navigation,
@@ -30,9 +30,8 @@ const QuizBox = ({
   // Time formatting
   let minutes = Math.floor(time / 60);
   let extraSeconds = time % 60;
-  minutes = minutes < 10 ? parseInt('0') + minutes : minutes;
-  extraSeconds =
-    extraSeconds < 10 ? parseInt('0') + extraSeconds : extraSeconds;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  extraSeconds = extraSeconds < 10 ? '0' + extraSeconds : extraSeconds;
 
   let formattedTime = `${minutes}:${extraSeconds}`;
 
@@ -40,7 +39,7 @@ const QuizBox = ({
     <ScrollView className="bg-secondary m-3 rounded-xl">
       <View className="bg-secondary flex flex-column items-center rounded-xl">
         <Text className="text-black text-[28px] text-center font-bold m-2">
-          {title}
+          {name}
         </Text>
         <CardImage
           category={category}
@@ -63,7 +62,7 @@ const QuizBox = ({
             </Text>
           </View>
           <AppButton
-            //   onPress={command}
+            onPress={() => navigation.navigate('Quiz')}
             text="START"
             textStyle="text-white text-[25px]"
             styles="bg-primary p-[5px] mx-auto w-[130px] text-[25px] rounded-[60px]"

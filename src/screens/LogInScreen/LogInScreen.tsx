@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 import LogInBox from './LogInBox/LogInBox';
 import Title from '../../components/Title/Title';

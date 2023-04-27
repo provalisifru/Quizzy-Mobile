@@ -10,7 +10,7 @@ interface QuizInfoProps {
 }
 
 const QuizInfo = ({route, navigation}: QuizInfoProps) => {
-  let {title, description, category} = route.params;
+  let {name, description, category, time} = route.params;
   return (
     <View className="bg-primary h-full">
       <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
@@ -23,10 +23,10 @@ const QuizInfo = ({route, navigation}: QuizInfoProps) => {
         />
       </View>
       <QuizBox
-        title={title}
+        name={name}
         description={description}
         category={category}
-        time={630}
+        time={time}
         navigation={navigation}
       />
     </View>

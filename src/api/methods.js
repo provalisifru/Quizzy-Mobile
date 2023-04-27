@@ -8,15 +8,28 @@ const logIn = async (username, password) => {
       username,
       password,
     });
-
-    if (response.status === 200) {
-      console.log('Sign in successful:', response.data.message);
-    } else {
-      console.log('Sign in failed:', response.data.message);
-    }
+    return response;
   } catch (error) {
-    console.error('Error during sign-in:', error.message);
+    return error.message;
   }
 };
 
-export default logIn;
+const getQuizzes = async () => {
+  try {
+    const response = await axios.get(`${url}/api/quizzes`, {});
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const getCategories = async () => {
+  try {
+    const response = await axios.get(`${url}/api/quizzes/category`, {});
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export default {logIn, getQuizzes, getCategories};

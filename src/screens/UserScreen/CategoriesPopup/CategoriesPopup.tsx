@@ -5,27 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface CategoriesPopUp {
   command: any;
+  categories: Array<string>;
 }
 
-const CategoriesPopup = ({command}: CategoriesPopUp) => {
-  const categories = [
-    'Sport',
-    'Geography',
-    'Flags',
-    'Sport',
-    'Geography',
-    'Flags',
-    'Sport',
-    'Geography',
-    'Flags',
-    'Sport',
-    'Geography',
-    'Flags',
-    'Sport',
-    'Geography',
-    'Flags',
-  ];
-
+const CategoriesPopup = ({command, categories}: CategoriesPopUp) => {
   const list = categories.map((category, id) => {
     return (
       <TouchableOpacity key={id} onPress={command}>
