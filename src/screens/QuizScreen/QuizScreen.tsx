@@ -4,6 +4,7 @@ import Title from '../../components/Title/Title';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import OneAnswer from './Questions/OneAnswer';
 import WriteAnswer from './Questions/WriteAnswer';
+import MultipleAnswers from './Questions/MultipleAnswers';
 
 interface QuizScreenProps {
   navigation: any;
@@ -37,6 +38,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         <View className="bg-white w-[90%] m-auto rounded-xl">
           <OneAnswer />
           <WriteAnswer placeholder="Write in the answer" />
+          <MultipleAnswers />
         </View>
         <AppButton
           onPress={() => navigation.navigate('EndScreen')}
