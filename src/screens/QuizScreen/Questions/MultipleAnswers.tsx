@@ -2,8 +2,12 @@ import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
+// const object = {}
+// object["propertyName"] = propertyValue;
+
 const MultipleAnswers = () => {
   const [answers, setAnswers] = useState([]);
+
   const qa = [
     {
       question: 'Where was Lionel Messi born?',
@@ -14,6 +18,7 @@ const MultipleAnswers = () => {
   const answer = qa.map(question => {
     return question.answers.map((answer, id) => {
       const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
       const setAnswer = newValue => {
         setToggleCheckBox(newValue);
         if (answers.length > 0) {
@@ -31,7 +36,7 @@ const MultipleAnswers = () => {
               setAnswers([...answers, answer]);
             }
           });
-        } else if (answers.length === 0) setAnswers([...answers, answer]);=
+        } else if (answers.length === 0) setAnswers([...answers, answer]);
       };
       return (
         <View key={id}>
