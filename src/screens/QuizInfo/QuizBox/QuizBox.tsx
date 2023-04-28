@@ -1,12 +1,23 @@
-import React, {useState} from 'react';
-import {Text, ScrollView, View, TouchableOpacity, Modal} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Text,
+  ScrollView,
+  View,
+  TouchableOpacity,
+  Modal,
+  Alert,
+} from 'react-native';
 import AppButton from '../../../components/Button/AppButton';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CardImage from '../../../CardImage';
 import InstructionsPopup from '../InstructionsPopup/InstructionsPopup';
 
+import api from '../../../api/methods';
+import {AnswersContext} from '../../../../App';
+
 interface QuizBoxProps {
+  quizId?: string;
   navigation?: any;
   category?: string;
   name?: string;
@@ -15,6 +26,7 @@ interface QuizBoxProps {
 }
 
 const QuizBox = ({
+  quizId,
   category,
   name,
   description,
@@ -23,8 +35,15 @@ const QuizBox = ({
 }: QuizBoxProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const {getQuizInfo, quizInfo} = useContext(AnswersContext);
+
   const OpenInstructions = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const startQuiz = () => {
+    navigation.navigate('Quiz', {quizInfo: quizInfo});
+    getQuizInfo(quizId ?? '');
   };
 
   // Time formatting
@@ -62,7 +81,7 @@ const QuizBox = ({
             </Text>
           </View>
           <AppButton
-            onPress={() => navigation.navigate('Quiz')}
+            onPress={startQuiz}
             text="START"
             textStyle="text-white text-[25px]"
             styles="bg-primary p-[5px] mx-auto w-[130px] text-[25px] rounded-[60px]"

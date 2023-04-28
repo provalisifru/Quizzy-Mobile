@@ -1,7 +1,5 @@
 import React from 'react';
 import {View} from 'react-native';
-import Title from '../../components/Title/Title';
-import AppButton from '../../components/Button/AppButton';
 import QuizBox from './QuizBox/QuizBox';
 import HeadingWithoutInvitation from '../../feature/HeadingWithoutInvitation/HeadingWithoutInvitation';
 
@@ -11,7 +9,7 @@ interface QuizInfoProps {
 }
 
 const QuizInfo = ({route, navigation}: QuizInfoProps) => {
-  let {name, description, category, time} = route.params;
+  let {quizId, name, description, category, time} = route.params;
   return (
     <View className="bg-primary h-full">
       <HeadingWithoutInvitation navigation={navigation} />
@@ -21,6 +19,7 @@ const QuizInfo = ({route, navigation}: QuizInfoProps) => {
         category={category}
         time={time}
         navigation={navigation}
+        quizId={quizId}
       />
     </View>
   );

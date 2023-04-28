@@ -45,6 +45,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
 
   const openQuiz = (quiz: QuizModel) => {
     navigation.navigate('QuizInfo', {
+      quizId: quiz.id,
       category: quiz.category,
       name: quiz.name,
       description: quiz.description,

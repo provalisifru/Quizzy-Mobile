@@ -1,17 +1,25 @@
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Alert} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
-import Title from '../../components/Title/Title';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import OneAnswer from './Questions/OneAnswer';
-import WriteAnswer from './Questions/WriteAnswer';
-import MultipleAnswers from './Questions/MultipleAnswers';
 import HeadingWithoutInvitation from '../../feature/HeadingWithoutInvitation/HeadingWithoutInvitation';
+import {AnswersContext} from '../../../App';
+import {useContext} from 'react';
+import QuizLogic from './QuizLogic/QuizLogic';
 
 interface QuizScreenProps {
   navigation: any;
+  route: any;
 }
 
-const QuizScreen = ({navigation}: QuizScreenProps) => {
+const QuizScreen = ({route, navigation}: QuizScreenProps) => {
+  var {quizInfo} = route.params;
+
+  let index = 1;
+
+  const {allAnswers, setAllAnswers} = useContext(AnswersContext);
+
+  // console.log('this is route parms2', quizInfo);
+
   return (
     <View className="bg-primary h-full">
       <HeadingWithoutInvitation navigation={navigation} />
@@ -29,9 +37,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           </TouchableOpacity>
         </View>
         <View className="bg-white w-[90%] m-auto rounded-xl">
-          {/* <OneAnswer /> */}
-          {/* <WriteAnswer placeholder="Write in the answer" /> */}
-          <MultipleAnswers />
+          <QuizLogic quizInfo={quizInfo} index={index} />
         </View>
         <AppButton
           onPress={() => navigation.navigate('EndScreen')}

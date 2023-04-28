@@ -23,6 +23,15 @@ const getQuizzes = async () => {
   }
 };
 
+const getQuiz = async quizId => {
+  try {
+    const response = await axios.get(`${url}/api/quizzes/${quizId}`);
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const getCategories = async () => {
   try {
     const response = await axios.get(`${url}/api/quizzes/category`, {});
@@ -32,4 +41,4 @@ const getCategories = async () => {
   }
 };
 
-export default {logIn, getQuizzes, getCategories};
+export default {logIn, getQuizzes, getQuiz, getCategories};
