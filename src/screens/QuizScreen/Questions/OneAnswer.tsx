@@ -8,7 +8,7 @@ interface OneAnswerProps {
   quizAnswers: string;
 }
 
-const OneAnswer = ({quizQuestion, quizAnswers}: OneAnswerProps) => {
+const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
   const {checked, setChecked} = useContext(AnswersContext);
 
   let answers = {quizAnswers}.quizAnswers;
@@ -37,7 +37,7 @@ const OneAnswer = ({quizQuestion, quizAnswers}: OneAnswerProps) => {
   return (
     <View className="m-5">
       <Text className="text-black m-2 underline font-medium text-[18px]">
-        1. {quizQuestion}
+        {index + 1}. {quizQuestion}
       </Text>
       {answer}
     </View>

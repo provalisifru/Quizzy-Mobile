@@ -8,13 +8,13 @@ interface WriteAnswerProps {
   quizQuestion: string;
 }
 
-const WriteAnswer = ({placeholder, quizQuestion}: WriteAnswerProps) => {
+const WriteAnswer = ({index, placeholder, quizQuestion}: WriteAnswerProps) => {
   const {setWrittenAnswer} = useContext(AnswersContext);
 
   return (
     <View className="m-5">
       <Text className="text-black m-2 underline font-medium text-[18px]">
-        2. {quizQuestion}
+        {index + 1}. {quizQuestion}
       </Text>
       <View className="border-solid border-black border-[3px] rounded-xl m-6">
         <Input placeholder={placeholder} setState={setWrittenAnswer} />

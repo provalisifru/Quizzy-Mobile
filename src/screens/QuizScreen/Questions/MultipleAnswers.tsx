@@ -3,7 +3,7 @@ import {Text, View, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {AnswersContext} from '../../../../App';
 
-const MultipleAnswers = ({quizAnswers, quizQuestion}) => {
+const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
   const {answers, setAnswers} = useContext(AnswersContext);
 
   const handleChange = answer => {
@@ -16,8 +16,6 @@ const MultipleAnswers = ({quizAnswers, quizQuestion}) => {
         } else setAnswers([...answers, answer]);
       });
   };
-
-  console.log(answers);
 
   let showAnswers = quizAnswers.map(quizAnswer => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -44,7 +42,7 @@ const MultipleAnswers = ({quizAnswers, quizQuestion}) => {
   return (
     <View className="m-5">
       <Text className="text-black m-2 underline font-medium text-[18px]">
-        1. {quizQuestion}
+        {index + 1}. {quizQuestion}
       </Text>
       {showAnswers}
     </View>

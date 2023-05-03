@@ -24,22 +24,22 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [quizInfo, setQuizInfo] = useState<QuizModel[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [chosenCategory, setChosenCategory] = useState('');
 
   useEffect(() => {
     const getQuizzes = async () => {
       const response = await api.getQuizzes();
       setQuizInfo(response);
     };
+    const getCategories = async () => {
+      const response = await api.getCategories();
+      setCategories(response);
+    };
     getQuizzes();
+    getCategories();
   }, []);
 
-  const getCategories = async () => {
-    const response = await api.getCategories();
-    setCategories(response);
-  };
-
   const OpenCategory = () => {
-    getCategories();
     setModalVisible(!modalVisible);
   };
 
@@ -53,24 +53,44 @@ const UserScreen = ({navigation}: UserScreenProps) => {
     });
   };
 
-  const cardList = quizInfo.map((quiz, id) => {
-    return (
-      <View key={id}>
-        <Cards
-          onPress={() => openQuiz(quiz)}
-          category={quiz.category}
-          title={quiz.name}
-          description={quiz.description}
-        />
-      </View>
-    );
-  });
+  let filteredQuizzes;
+
+  filteredQuizzes = quizInfo.filter(quiz => quiz.category === chosenCategory);
+
+  const cardList = chosenCategory
+    ? filteredQuizzes.map((quiz, id) => {
+        return (
+          <View key={id}>
+            <Cards
+              onPress={() => openQuiz(quiz)}
+              category={quiz.category}
+              title={quiz.name}
+              description={quiz.description}
+            />
+          </View>
+        );
+      })
+    : quizInfo.map((quiz, id) => {
+        return (
+          <View key={id}>
+            <Cards
+              onPress={() => openQuiz(quiz)}
+              category={quiz.category}
+              title={quiz.name}
+              description={quiz.description}
+            />
+          </View>
+        );
+      });
 
   return (
     <ScrollView className="h-full bg-primary flex flex-column">
       <Heading navigation={navigation} iconName={true} />
       <Search />
-      <CategoryButton category="Categories" command={OpenCategory} />
+      <CategoryButton
+        category={chosenCategory ? chosenCategory : 'Categories'}
+        command={OpenCategory}
+      />
       {cardList}
       <Modal
         animationType="slide"
@@ -80,7 +100,11 @@ const UserScreen = ({navigation}: UserScreenProps) => {
           setModalVisible(!modalVisible);
         }}>
         <View>
-          <CategoriesPopup categories={categories} command={OpenCategory} />
+          <CategoriesPopup
+            categories={categories}
+            closePopup={OpenCategory}
+            chooseCategory={setChosenCategory}
+          />
         </View>
       </Modal>
     </ScrollView>

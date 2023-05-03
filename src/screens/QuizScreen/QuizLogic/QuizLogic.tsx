@@ -15,6 +15,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     case 'multi':
       return (
         <MultipleAnswers
+          index={index}
           quizQuestion={quizInfo.questions[index].text}
           quizAnswers={quizInfo.questions[index].answers}
         />
@@ -23,6 +24,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     case 'single':
       return (
         <OneAnswer
+          index={index}
           quizQuestion={quizInfo.questions[index].text}
           quizAnswers={quizInfo.questions[index].answers}
         />
@@ -31,6 +33,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     case 'text':
       return (
         <WriteAnswer
+          index={index}
           quizQuestion={quizInfo.questions[index].text}
           placeholder="Write answer here"
         />

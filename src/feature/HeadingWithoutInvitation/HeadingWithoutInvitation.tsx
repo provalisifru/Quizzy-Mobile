@@ -9,8 +9,8 @@ interface HeadingProps {
 
 const HeadingWithoutInvitation = ({navigation}: HeadingProps) => {
   return (
-    <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
-      <Title styles="text-secondary text-[40px] text-[40px]" />
+    <View className="flex flex-row items-center justify-around my-[20px] bg-primary">
+      <Title styles="text-secondary text-[40px] text-[40px] mr-[60px]" />
       <AppButton
         onPress={() => navigation.navigate('LogIn')}
         text="Log out"

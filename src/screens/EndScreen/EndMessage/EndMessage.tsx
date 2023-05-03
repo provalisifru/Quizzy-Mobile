@@ -1,4 +1,5 @@
 import {Text, View} from 'react-native';
+import EndFunction from '../../../components/EndFunction/EndFunction';
 
 interface EndMessageProps {
   navigation: any;
@@ -6,6 +7,7 @@ interface EndMessageProps {
   title: string;
   message: string;
   icon: string;
+  isInvite: any;
 }
 
 const EndMessage = ({
@@ -14,12 +16,17 @@ const EndMessage = ({
   message,
   Component,
   icon,
+  isInvite,
 }: EndMessageProps) => {
   return (
     <View className="bg-secondary rounded-[70px] flex flex-column items-center m-4 p-2">
       <Text className="text-primary font-bold text-[32px]">{title}</Text>
       <Text className="text-primary text-[18px] mx-6 my-1">{message}</Text>
-      <Component icon={icon} navigation={navigation} />
+      {isInvite ? (
+        <Component icon={icon} navigation={navigation} />
+      ) : (
+        <EndFunction navigation={navigation} />
+      )}
     </View>
   );
 };

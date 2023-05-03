@@ -16,8 +16,6 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
 
   const [index, setIndex] = useState(0);
 
-  console.log(quizInfo?.id);
-
   let quizLength = quizInfo?.questions.length - 1;
   let buttonText = 'Next';
 
@@ -56,7 +54,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
                 setAllAnswers([...allAnswers, answers]);
             }
             if (index === quizLength) {
-              navigation.navigate('EndScreen', {quizId: quizInfo?.id});
+              navigation.navigate('EndScreen', {quizId: quizInfo.id});
             } else {
               setIndex(index + 1);
             }
