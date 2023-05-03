@@ -17,9 +17,7 @@ const Input = ({
   return (
     <View>
       <TextInput
-        onChangeText={text => {
-          setState(text);
-        }}
+        onChangeText={setState}
         value={value}
         placeholder={placeholder}
         className={`text-[24px] ${styles}`}

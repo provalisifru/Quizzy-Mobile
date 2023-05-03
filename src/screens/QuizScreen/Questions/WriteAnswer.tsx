@@ -9,7 +9,7 @@ interface WriteAnswerProps {
 }
 
 const WriteAnswer = ({placeholder, quizQuestion}: WriteAnswerProps) => {
-  const {setAnswer} = useContext(AnswersContext);
+  const {setWrittenAnswer} = useContext(AnswersContext);
 
   return (
     <View className="m-5">
@@ -17,7 +17,7 @@ const WriteAnswer = ({placeholder, quizQuestion}: WriteAnswerProps) => {
         2. {quizQuestion}
       </Text>
       <View className="border-solid border-black border-[3px] rounded-xl m-6">
-        <Input placeholder={placeholder} setState={setAnswer} />
+        <Input placeholder={placeholder} setState={setWrittenAnswer} />
       </View>
     </View>
   );

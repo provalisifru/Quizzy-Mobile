@@ -41,4 +41,13 @@ const getCategories = async () => {
   }
 };
 
-export default {logIn, getQuizzes, getQuiz, getCategories};
+const getScoreboard = async quizId => {
+  try {
+    const response = await axios.get(`${url}/api/scoreboards/${quizId}`, {});
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export default {logIn, getQuizzes, getQuiz, getCategories, getScoreboard};

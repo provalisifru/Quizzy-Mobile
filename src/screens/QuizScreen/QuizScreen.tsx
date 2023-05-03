@@ -11,10 +11,12 @@ interface QuizScreenProps {
 }
 
 const QuizScreen = ({navigation}: QuizScreenProps) => {
-  const {allAnswers, setAllAnswers, checked, answer, quizInfo} =
+  const {allAnswers, setAllAnswers, answers, checked, writtenAnswer, quizInfo} =
     useContext(AnswersContext);
 
   const [index, setIndex] = useState(0);
+
+  console.log(quizInfo?.id);
 
   let quizLength = quizInfo?.questions.length - 1;
   let buttonText = 'Next';
@@ -46,13 +48,15 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           onPress={() => {
             switch (quizInfo?.questions[index].type) {
               case 'single':
-                setAllAnswers(...allAnswers, checked);
+                setAllAnswers([...allAnswers, checked]);
                 break;
               case 'text':
-                setAllAnswers(...allAnswers, writtenAnswer);
+                setAllAnswers([...allAnswers, writtenAnswer]);
+              case 'multi':
+                setAllAnswers([...allAnswers, answers]);
             }
             if (index === quizLength) {
-              navigation.navigate('EndScreen');
+              navigation.navigate('EndScreen', {quizId: quizInfo?.id});
             } else {
               setIndex(index + 1);
             }

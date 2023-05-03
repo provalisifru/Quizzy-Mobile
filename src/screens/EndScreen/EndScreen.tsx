@@ -2,18 +2,24 @@ import {View} from 'react-native';
 import Title from '../../components/Title/Title';
 import AppButton from '../../components/Button/AppButton';
 import EndMessage from './EndMessage/EndMessage';
-import {useState} from 'react';
+import {useState, useContext} from 'react';
 
 import EndFunction from '../../components/EndFunction/EndFunction';
 import InviteEndFunction from '../../components/InviteEndFunction/InviteEndFunction';
 import Scoreboard from './Scoreboard/Scoreboard';
+import {AnswersContext} from '../../../App';
 
 interface EndScreenProps {
   navigation: any;
+  route: any;
 }
 
-const EndScreen = ({navigation}: EndScreenProps) => {
-  const [title, setTitle] = useState('');
+const EndScreen = ({navigation, route}: EndScreenProps) => {
+  const {allAnswers} = useContext(AnswersContext);
+
+  console.log('Ovo su finalni odgovori', allAnswers);
+
+  const {quizId} = route.params;
 
   return (
     <View className="bg-primary h-full">
@@ -33,7 +39,7 @@ const EndScreen = ({navigation}: EndScreenProps) => {
         title="Good job"
         message="Some message for you my winner woohoo let's go"
       />
-      <Scoreboard />
+      <Scoreboard quizId={quizId} />
     </View>
   );
 };

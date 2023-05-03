@@ -1,39 +1,52 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {AnswersContext} from '../../../../App';
 
-// const object = {}
-// object["propertyName"] = propertyValue;
-
 const MultipleAnswers = ({quizAnswers, quizQuestion}) => {
-  const [answers, setAnswers] = useState([]);
+  const {answers, setAnswers} = useContext(AnswersContext);
 
-  const {allAnswers, setAllAnswers} = useContext(AnswersContext);
+  const handleChange = answer => {
+    if (answers.length === 0) {
+      setAnswers([...answers, answer]);
+    } else
+      answers.forEach(element => {
+        if (element === answer) {
+          setAnswers(answers.filter(ans => ans != answer));
+        } else setAnswers([...answers, answer]);
+      });
+  };
 
-  let answerss = {quizAnswers}.quizAnswers;
+  console.log(answers);
 
-  useEffect(() => {
-    // console.log('this is answers', answers);
-  }, [answers]);
-
-  // <View key={id}>
-  //   <View className="flex flex-row items-center m-2">
-  //     <CheckBox
-  //       disabled={false}
-  //       value={toggleCheckBox}
-  //       onValueChange={setAnswer}
-  //     />
-  //     <Text className="text-black text-[18px]">{answer}</Text>
-  //   </View>
-  // </View>
+  let showAnswers = quizAnswers.map(quizAnswer => {
+    const [toggleCheckBox, setToggleCheckBox] = useState(false);
+    return (
+      <TouchableOpacity
+        key={quizAnswer.text}
+        className="flex flex-row items-center"
+        onPress={() => {
+          setToggleCheckBox(!toggleCheckBox);
+          handleChange(quizAnswer.text);
+        }}>
+        <View>
+          <CheckBox
+            disabled={false}
+            value={toggleCheckBox}
+            onValueChange={newValue => setToggleCheckBox(newValue)}
+          />
+        </View>
+        <Text className="font-bold text-[18px] m-2">{quizAnswer.text}</Text>
+      </TouchableOpacity>
+    );
+  });
 
   return (
     <View className="m-5">
       <Text className="text-black m-2 underline font-medium text-[18px]">
         1. {quizQuestion}
       </Text>
-      {/* {answer} */}
+      {showAnswers}
     </View>
   );
 };

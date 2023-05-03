@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
+import api from '../../../api/methods';
 
 const array = [
   {
@@ -29,15 +30,33 @@ const array = [
   },
 ];
 
-const Scoreboard = () => {
-  let scores = array.map((score, i) => {
+const Scoreboard = ({quizId}) => {
+  const [scoreboard, setScoreboard] = useState('');
+
+  console.log(scoreboard);
+
+  const getScoreboard = (quizId: string) => {
+    api.getScoreboard(quizId).then(response => {
+      if (response?.status === 200) {
+        setScoreboard(response.data);
+      } else {
+        console.log('Error', response.error);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getScoreboard(quizId);
+  }, []);
+
+  let scores = scoreboard.map((score, i) => {
     return (
       <View key={score.id} className="flex flex-row justify-between mx-2">
         <Text className="text-primary text-[15px] font-bold">
           {i + 1}. {score.username}
         </Text>
         <Text className="text-primary text-[15px] font-bold">
-          {score.points}
+          {score.score}
         </Text>
       </View>
     );
