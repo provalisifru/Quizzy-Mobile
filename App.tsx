@@ -3,12 +3,13 @@
 import React, {Dispatch, SetStateAction, createContext, useState} from 'react';
 import LoginNavigator from './src/screens/LogInScreen/LoginNavigator/LoginNavigator';
 import api from './src/api/methods';
+import {QuizInfoInterface} from './src/Interfaces';
 
 export const AnswersContext = createContext<{
   allAnswers: string[];
   setAllAnswers: Dispatch<SetStateAction<string[]>>;
   getQuizInfo: (quizId: string) => void;
-  quizInfo?: object; //<Interface>; //NAPRAVI INTERFEJS
+  quizInfo?: QuizInfoInterface;
 }>({
   allAnswers: [],
   setAllAnswers: () => {},
@@ -18,7 +19,9 @@ export const AnswersContext = createContext<{
 
 const AppProvider = ({children}: any) => {
   const [allAnswers, setAllAnswers] = useState<string[]>([]);
-  const [quizInfo, setQuizInfo] = useState(); // i ovde
+  const [quizInfo, setQuizInfo] = useState<QuizInfoInterface>();
+  const [checked, setChecked] = useState('');
+  const [writtenAnswer, setWrittenAnswer] = useState('');
 
   const getQuizInfo = (quizId: string) => {
     api.getQuiz(quizId).then(response => {
@@ -32,7 +35,16 @@ const AppProvider = ({children}: any) => {
 
   return (
     <AnswersContext.Provider
-      value={{allAnswers, setAllAnswers, getQuizInfo, quizInfo}}>
+      value={{
+        allAnswers,
+        setAllAnswers,
+        getQuizInfo,
+        quizInfo,
+        checked,
+        setChecked,
+        writtenAnswer,
+        setWrittenAnswer,
+      }}>
       {children}
     </AnswersContext.Provider>
   );

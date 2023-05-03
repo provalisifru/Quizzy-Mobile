@@ -1,4 +1,4 @@
-import {Text, View, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import Title from '../../components/Title/Title';
 import AppButton from '../../components/Button/AppButton';
 import EndMessage from './EndMessage/EndMessage';
@@ -13,10 +13,8 @@ interface EndScreenProps {
 }
 
 const EndScreen = ({navigation}: EndScreenProps) => {
-  //
   const [title, setTitle] = useState('');
 
-  //
   return (
     <View className="bg-primary h-full">
       <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
@@ -33,7 +31,7 @@ const EndScreen = ({navigation}: EndScreenProps) => {
         navigation={navigation}
         icon="🎂"
         title="Good job"
-        message="Some sexy message for you my sexy winner woohoo let's go"
+        message="Some message for you my winner woohoo let's go"
       />
       <Scoreboard />
     </View>

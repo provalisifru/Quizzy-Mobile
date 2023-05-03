@@ -13,8 +13,6 @@ const MultipleAnswers = ({quizAnswers, quizQuestion}) => {
 
   let answerss = {quizAnswers}.quizAnswers;
 
-  console.log(answerss[2]);
-
   useEffect(() => {
     // console.log('this is answers', answers);
   }, [answers]);

@@ -9,9 +9,7 @@ interface WriteAnswerProps {
 }
 
 const WriteAnswer = ({placeholder, quizQuestion}: WriteAnswerProps) => {
-  const [answer, setAnswer] = useState('');
-
-  const {allAnswers, setAllAnswers} = useContext(AnswersContext);
+  const {setAnswer} = useContext(AnswersContext);
 
   return (
     <View className="m-5">

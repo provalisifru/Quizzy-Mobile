@@ -3,22 +3,25 @@ import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HeadingWithoutInvitation from '../../feature/HeadingWithoutInvitation/HeadingWithoutInvitation';
 import {AnswersContext} from '../../../App';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 
 interface QuizScreenProps {
   navigation: any;
-  route: any;
 }
 
-const QuizScreen = ({route, navigation}: QuizScreenProps) => {
-  var {quizInfo} = route.params;
+const QuizScreen = ({navigation}: QuizScreenProps) => {
+  const {allAnswers, setAllAnswers, checked, answer, quizInfo} =
+    useContext(AnswersContext);
 
-  let index = 1;
+  const [index, setIndex] = useState(0);
 
-  const {allAnswers, setAllAnswers} = useContext(AnswersContext);
+  let quizLength = quizInfo?.questions.length - 1;
+  let buttonText = 'Next';
 
-  // console.log('this is route parms2', quizInfo);
+  if (index === quizLength) {
+    buttonText = 'Finish';
+  }
 
   return (
     <View className="bg-primary h-full">
@@ -37,11 +40,24 @@ const QuizScreen = ({route, navigation}: QuizScreenProps) => {
           </TouchableOpacity>
         </View>
         <View className="bg-white w-[90%] m-auto rounded-xl">
-          <QuizLogic quizInfo={quizInfo} index={index} />
+          <QuizLogic index={index} />
         </View>
         <AppButton
-          onPress={() => navigation.navigate('EndScreen')}
-          text="Next"
+          onPress={() => {
+            switch (quizInfo?.questions[index].type) {
+              case 'single':
+                setAllAnswers(...allAnswers, checked);
+                break;
+              case 'text':
+                setAllAnswers(...allAnswers, writtenAnswer);
+            }
+            if (index === quizLength) {
+              navigation.navigate('EndScreen');
+            } else {
+              setIndex(index + 1);
+            }
+          }}
+          text={buttonText}
           textStyle="text-white text-[25px]"
           styles="bg-primary p-[5px] my-6 self-center w-[130px] text-[25px] rounded-[12px]"
         />

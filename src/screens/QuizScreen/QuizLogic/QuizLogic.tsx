@@ -1,42 +1,44 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import OneAnswer from '../Questions/OneAnswer';
 import MultipleAnswers from '../Questions/MultipleAnswers';
 import WriteAnswer from '../Questions/WriteAnswer';
+import {AnswersContext} from '../../../../App';
 
 interface QuizLogicProps {
-  quizInfo: any;
-  index: any;
+  index: number;
 }
 
-const LogicInfo = ({quizInfo, index}: QuizLogicProps) => {
-  const quiz = quizInfo;
+const QuizLogic = ({index}: QuizLogicProps) => {
+  const {quizInfo} = useContext(AnswersContext);
 
-  switch (quiz.questions[index].type) {
+  switch (quizInfo?.questions[index].type) {
     case 'multi':
       return (
         <MultipleAnswers
-          quizQuestion={quiz.questions[index].text}
-          quizAnswers={quiz.questions[index].answers}
+          quizQuestion={quizInfo.questions[index].text}
+          quizAnswers={quizInfo.questions[index].answers}
         />
       );
       break;
     case 'single':
       return (
         <OneAnswer
-          quizQuestion={quiz.questions[index].text}
-          quizAnswers={quiz.questions[index].answers}
+          quizQuestion={quizInfo.questions[index].text}
+          quizAnswers={quizInfo.questions[index].answers}
         />
       );
       break;
     case 'text':
       return (
         <WriteAnswer
-          quizQuestion={quiz.questions[index].text}
+          quizQuestion={quizInfo.questions[index].text}
           placeholder="Write answer here"
         />
       );
       break;
+    default:
+      return <></>;
   }
 };
 
-export default LogicInfo;
+export default QuizLogic;

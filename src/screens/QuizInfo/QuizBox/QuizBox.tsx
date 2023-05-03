@@ -42,8 +42,8 @@ const QuizBox = ({
   };
 
   const startQuiz = () => {
-    navigation.navigate('Quiz', {quizInfo: quizInfo});
     getQuizInfo(quizId ?? '');
+    navigation.navigate('Quiz', {quizInfo: quizInfo});
   };
 
   // Time formatting
