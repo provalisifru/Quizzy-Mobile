@@ -25,6 +25,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const getQuizzes = async () => {
@@ -52,6 +53,15 @@ const UserScreen = ({navigation}: UserScreenProps) => {
       time: quiz.time,
     });
   };
+
+  console.log(quizInfo[0].name);
+
+  if (search) {
+    let quizzes = [];
+    let searchResult = quizInfo.forEach(quiz => {
+      if (quiz.name?.includes(search)) quizzes.push(quiz);
+    });
+  }
 
   let filteredQuizzes;
 
@@ -86,7 +96,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   return (
     <ScrollView className="h-full bg-primary flex flex-column">
       <Heading navigation={navigation} iconName={true} />
-      <Search />
+      <Search setSearch={setSearch} />
       <CategoryButton
         category={chosenCategory ? chosenCategory : 'Categories'}
         command={OpenCategory}
