@@ -22,7 +22,7 @@ const AppProvider = ({children}: any) => {
   const [quizInfo, setQuizInfo] = useState<QuizInfoInterface>();
   const [checked, setChecked] = useState('');
   const [writtenAnswer, setWrittenAnswer] = useState('');
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState('');
 
   const getQuizInfo = (quizId: string) => {
     api.getQuiz(quizId).then(response => {

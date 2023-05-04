@@ -52,7 +52,14 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         setAllAnswers([...allAnswers, checked]);
         break;
       case 'text':
-        setAllAnswers([...allAnswers, writtenAnswer]);
+        setAllAnswers([
+          ...allAnswers,
+          {
+            questionId: quizInfo?.questions[index].id,
+            text: writtenAnswer,
+            correct: false,
+          },
+        ]);
         break;
       case 'multi':
         setAllAnswers([...allAnswers, answers]);
