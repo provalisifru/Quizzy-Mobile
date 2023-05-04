@@ -14,17 +14,27 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const {allAnswers, setAllAnswers, answers, checked, writtenAnswer, quizInfo} =
     useContext(AnswersContext);
 
+  const [seconds, setSeconds] = useState(quizInfo?.time);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(seconds => seconds - 1);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (seconds === 0) {
+    navigation.navigate('EndScreen', {quizId: quizInfo.id});
+  }
+
   const [hintUsed, setHintUsed] = useState(false);
   const [flag, setFlag] = useState(false);
 
   const [index, setIndex] = useState(0);
 
   let quizLength = quizInfo?.questions.length - 1;
-  let buttonText = 'Next';
-
-  if (index === quizLength) {
-    buttonText = 'Finish';
-  }
 
   const showHint = () => {
     if (!flag) {
@@ -32,6 +42,27 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         setHintUsed(true);
         setFlag(true);
       }
+    }
+  };
+
+  const submit = () => {
+    setFlag(false);
+    switch (quizInfo?.questions[index].type) {
+      case 'single':
+        setAllAnswers([...allAnswers, checked]);
+        break;
+      case 'text':
+        setAllAnswers([...allAnswers, writtenAnswer]);
+        break;
+      case 'multi':
+        setAllAnswers([...allAnswers, answers]);
+      default:
+        break;
+    }
+    if (index === quizLength) {
+      navigation.navigate('EndScreen', {quizId: quizInfo.id});
+    } else {
+      setIndex(index + 1);
     }
   };
 
@@ -51,7 +82,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
             </TouchableOpacity>
           )}
 
-          <Text className="mx-6 text-black text-[24px]">9:36</Text>
+          <Text className="mx-6 text-black text-[24px]">{seconds}</Text>
           <TouchableOpacity>
             <Icon name="star-half-o" size={40} color="black" />
           </TouchableOpacity>
@@ -66,27 +97,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           <QuizLogic index={index} />
         </View>
         <AppButton
-          onPress={() => {
-            setFlag(false);
-            switch (quizInfo?.questions[index].type) {
-              case 'single':
-                setAllAnswers([...allAnswers, checked]);
-                break;
-              case 'text':
-                setAllAnswers([...allAnswers, writtenAnswer]);
-                break;
-              case 'multi':
-                setAllAnswers([...allAnswers, answers]);
-              default:
-                break;
-            }
-            if (index === quizLength) {
-              navigation.navigate('EndScreen', {quizId: quizInfo.id});
-            } else {
-              setIndex(index + 1);
-            }
-          }}
-          text={buttonText}
+          onPress={submit}
+          text={index === quizLength ? 'Finish' : 'Next'}
           textStyle="text-white text-[25px]"
           styles="bg-primary p-[5px] my-6 self-center w-[130px] text-[25px] rounded-[12px]"
         />

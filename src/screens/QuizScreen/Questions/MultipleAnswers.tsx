@@ -26,7 +26,7 @@ const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
         className="flex flex-row items-center"
         onPress={() => {
           setToggleCheckBox(!toggleCheckBox);
-          handleChange(quizAnswer.text);
+          handleChange(quizAnswer);
         }}>
         <View>
           <CheckBox
