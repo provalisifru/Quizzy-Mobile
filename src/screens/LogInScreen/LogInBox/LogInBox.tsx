@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import Input from '../../../components/Input/Input';
 import AppButton from '../../../components/Button/AppButton';
 import api from '../../../api/methods';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LogInBoxProps {
   navigation: any;
@@ -12,14 +13,18 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const command = () => {
-    api.logIn(username, password).then(response => {
+  const command = async () => {
+    await api.logIn(username, password).then(response => {
       if (response?.status === 200) {
+        AsyncStorage.setItem('username', username);
+        AsyncStorage.setItem('password', password);
         navigation.navigate('Home');
       } else {
-        Alert.alert('Error', response, [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ]);
+        Alert.alert(
+          'Login failed',
+          'Invalid username and password combination, please try again.',
+          [{text: 'OK'}],
+        );
       }
     });
   };

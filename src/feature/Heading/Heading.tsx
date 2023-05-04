@@ -4,6 +4,7 @@ import {View} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface HeadingProps {
   navigation: any;
@@ -11,6 +12,13 @@ interface HeadingProps {
 }
 
 const Heading = ({navigation, iconName}: HeadingProps) => {
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('username');
+    await AsyncStorage.removeItem('password');
+
+    navigation.navigate('LogIn');
+  };
+
   return (
     <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
       <Title styles="text-secondary text-[40px] text-[40px]" />
@@ -32,7 +40,7 @@ const Heading = ({navigation, iconName}: HeadingProps) => {
         )}
       </View>
       <AppButton
-        onPress={() => navigation.navigate('LogIn')}
+        onPress={handleLogout}
         text="Log out"
         textStyle="text-primary text-[20px]"
         styles="bg-secondary w-[90px] p-1 rounded-[60px]"
