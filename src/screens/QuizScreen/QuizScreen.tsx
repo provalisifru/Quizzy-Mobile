@@ -1,9 +1,9 @@
-import {Text, View, TouchableOpacity, Alert} from 'react-native';
+import {Text, View, TouchableOpacity, Alert, Modal} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HeadingWithoutInvitation from '../../feature/HeadingWithoutInvitation/HeadingWithoutInvitation';
 import {AnswersContext} from '../../../App';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 
 interface QuizScreenProps {
@@ -14,6 +14,9 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const {allAnswers, setAllAnswers, answers, checked, writtenAnswer, quizInfo} =
     useContext(AnswersContext);
 
+  const [hintUsed, setHintUsed] = useState(false);
+  const [flag, setFlag] = useState(false);
+
   const [index, setIndex] = useState(0);
 
   let quizLength = quizInfo?.questions.length - 1;
@@ -23,6 +26,15 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     buttonText = 'Finish';
   }
 
+  const showHint = () => {
+    if (!flag) {
+      if (!hintUsed) {
+        setHintUsed(true);
+        setFlag(true);
+      }
+    }
+  };
+
   return (
     <View className="bg-primary h-full">
       <HeadingWithoutInvitation navigation={navigation} />
@@ -31,27 +43,42 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           Football players quiz
         </Text>
         <View className="flex flex-row items-center m-auto mb-6">
-          <TouchableOpacity>
-            <Icon name="lightbulb-o" size={40} color="black" />
-          </TouchableOpacity>
+          {hintUsed ? (
+            <Icon name="lightbulb-o" size={40} color="gray" />
+          ) : (
+            <TouchableOpacity onPress={showHint}>
+              <Icon name="lightbulb-o" size={40} color="black" />
+            </TouchableOpacity>
+          )}
+
           <Text className="mx-6 text-black text-[24px]">9:36</Text>
           <TouchableOpacity>
             <Icon name="star-half-o" size={40} color="black" />
           </TouchableOpacity>
         </View>
         <View className="bg-white w-[90%] m-auto rounded-xl">
+          {flag ? (
+            <Text className="self-center text-[20px] font-bold">
+              {quizInfo?.questions[index].hint}
+            </Text>
+          ) : null}
+
           <QuizLogic index={index} />
         </View>
         <AppButton
           onPress={() => {
+            setFlag(false);
             switch (quizInfo?.questions[index].type) {
               case 'single':
                 setAllAnswers([...allAnswers, checked]);
                 break;
               case 'text':
                 setAllAnswers([...allAnswers, writtenAnswer]);
+                break;
               case 'multi':
                 setAllAnswers([...allAnswers, answers]);
+              default:
+                break;
             }
             if (index === quizLength) {
               navigation.navigate('EndScreen', {quizId: quizInfo.id});

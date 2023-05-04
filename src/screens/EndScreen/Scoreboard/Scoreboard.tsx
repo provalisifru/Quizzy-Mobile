@@ -25,7 +25,7 @@ const Scoreboard = ({quizId}: ScoreboardProps) => {
 
   let scores = scoreboard.map((score: any, i: number) => {
     return (
-      <View key={score.id} className="flex flex-row justify-between mx-2">
+      <View key={i} className="flex flex-row justify-between mx-2">
         <Text className="text-primary text-[15px] font-bold">
           {i + 1}. {score.username}
         </Text>

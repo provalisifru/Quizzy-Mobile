@@ -20,7 +20,6 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizInfo.questions[index].answers}
         />
       );
-      break;
     case 'single':
       return (
         <OneAnswer
@@ -29,7 +28,6 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizInfo.questions[index].answers}
         />
       );
-      break;
     case 'text':
       return (
         <WriteAnswer
@@ -38,7 +36,6 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           placeholder="Write answer here"
         />
       );
-      break;
     default:
       return <></>;
   }

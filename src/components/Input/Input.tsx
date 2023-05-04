@@ -6,6 +6,7 @@ interface InputProps {
   styles?: string;
   value?: string;
   setState?: (str: string) => void;
+  onFocus?: any;
 }
 
 const Input = ({
@@ -13,11 +14,13 @@ const Input = ({
   styles,
   value,
   setState = () => {},
+  onFocus,
 }: InputProps) => {
   return (
     <View>
       <TextInput
         onChangeText={setState}
+        onFocus={onFocus}
         value={value}
         placeholder={placeholder}
         className={`text-[24px] ${styles}`}

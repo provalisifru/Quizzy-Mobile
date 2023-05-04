@@ -1,5 +1,11 @@
 import {useState, useEffect} from 'react';
-import {ScrollView, Modal, View} from 'react-native';
+import {
+  ScrollView,
+  Modal,
+  View,
+  Touchable,
+  TouchableOpacity,
+} from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
 import Search from './Search/Search';
@@ -26,6 +32,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState('');
   const [search, setSearch] = useState('');
+  let [listType, setListType] = useState('default');
 
   useEffect(() => {
     const getQuizzes = async () => {
@@ -54,49 +61,53 @@ const UserScreen = ({navigation}: UserScreenProps) => {
     });
   };
 
-  console.log(quizInfo[0].name);
+  let listing = quizInfo;
 
-  if (search) {
-    let quizzes = [];
-    let searchResult = quizInfo.forEach(quiz => {
-      if (quiz.name?.includes(search)) quizzes.push(quiz);
-    });
+  switch (listType) {
+    case 'search': {
+      let quizzes = [];
+      quizInfo.forEach(quiz => {
+        if (quiz.name?.toLowerCase().includes(search.toLowerCase())) {
+          quizzes.push(quiz);
+        }
+        listing = quizzes;
+      });
+      break;
+    }
+    case 'category': {
+      listing = quizInfo.filter(quiz => quiz.category === chosenCategory);
+      break;
+    }
+    case 'default': {
+      // If listType is default return only 10 quizzes
+      listing = quizInfo.filter((item, index) => index < 10);
+      break;
+    }
   }
 
-  let filteredQuizzes;
-
-  filteredQuizzes = quizInfo.filter(quiz => quiz.category === chosenCategory);
-
-  const cardList = chosenCategory
-    ? filteredQuizzes.map((quiz, id) => {
-        return (
-          <View key={id}>
-            <Cards
-              onPress={() => openQuiz(quiz)}
-              category={quiz.category}
-              title={quiz.name}
-              description={quiz.description}
-            />
-          </View>
-        );
-      })
-    : quizInfo.map((quiz, id) => {
-        return (
-          <View key={id}>
-            <Cards
-              onPress={() => openQuiz(quiz)}
-              category={quiz.category}
-              title={quiz.name}
-              description={quiz.description}
-            />
-          </View>
-        );
-      });
+  const cardList = listing.map((quiz, id) => {
+    return (
+      <View key={id}>
+        <Cards
+          onPress={() => openQuiz(quiz)}
+          category={quiz.category}
+          title={quiz.name}
+          description={quiz.description}
+        />
+      </View>
+    );
+  });
 
   return (
     <ScrollView className="h-full bg-primary flex flex-column">
       <Heading navigation={navigation} iconName={true} />
-      <Search setSearch={setSearch} />
+      <Search
+        setSearch={setSearch}
+        onFocus={() => {
+          setListType('search');
+          setChosenCategory('');
+        }}
+      />
       <CategoryButton
         category={chosenCategory ? chosenCategory : 'Categories'}
         command={OpenCategory}
@@ -111,6 +122,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
         }}>
         <View>
           <CategoriesPopup
+            setListType={setListType}
             categories={categories}
             closePopup={OpenCategory}
             chooseCategory={setChosenCategory}
