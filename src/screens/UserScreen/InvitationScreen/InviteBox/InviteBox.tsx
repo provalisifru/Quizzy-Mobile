@@ -11,19 +11,18 @@ const InviteBox = ({navigation}) => {
 
   const {getQuizInfo, quizInfo, userId} = useContext(AnswersContext);
 
-  const command = async () => {
-    await api.getInvitations(userId).then(response => {
-      if (response?.status === 200) {
-        setInvites(response.data);
-      } else {
-        console.log(response.error);
-      }
-    });
-  };
-
   useEffect(() => {
+    const command = async () => {
+      await api.getInvitations(userId).then(response => {
+        if (response?.status === 200) {
+          setInvites(response.data);
+        } else {
+          console.log(response.error);
+        }
+      });
+    };
     command();
-  }, [userId]);
+  }, [invites]);
 
   const invitationAccept = quizId => {
     getQuizInfo(quizId ?? '');
@@ -38,7 +37,6 @@ const InviteBox = ({navigation}) => {
 
   const invitationDecline = invId => {
     api.declineInvitation(invId);
-    command();
   };
 
   const invitationList = invites.map((invite, id) => {

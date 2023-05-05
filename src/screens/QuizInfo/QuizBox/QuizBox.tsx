@@ -13,8 +13,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CardImage from '../../../CardImage';
 import InstructionsPopup from '../InstructionsPopup/InstructionsPopup';
 
-import api from '../../../api/methods';
 import {AnswersContext} from '../../../../App';
+import formatTime from '../../QuizScreen/TimeFormatter';
 
 interface QuizBoxProps {
   quizId?: string;
@@ -41,18 +41,13 @@ const QuizBox = ({
     setModalVisible(!modalVisible);
   };
 
-  const startQuiz = () => {
+  useEffect(() => {
     getQuizInfo(quizId ?? '');
+  }, []);
+
+  const startQuiz = () => {
     navigation.navigate('Quiz', {quizInfo: quizInfo});
   };
-
-  // Time formatting
-  let minutes = Math.floor(time / 60);
-  let extraSeconds = time % 60;
-  minutes = minutes < 10 ? '0' + minutes : minutes;
-  extraSeconds = extraSeconds < 10 ? '0' + extraSeconds : extraSeconds;
-
-  let formattedTime = `${minutes}:${extraSeconds}`;
 
   return (
     <ScrollView className="bg-secondary m-3 rounded-xl">
@@ -77,7 +72,7 @@ const QuizBox = ({
           <View className="flex flex-row items-center justify-center mb-6">
             <Icon name="timer-sand" size={30} color="black" />
             <Text className="text-black text-[20px]">
-              {formattedTime} minutes
+              {formatTime(time)} minutes
             </Text>
           </View>
           <AppButton
@@ -101,7 +96,10 @@ const QuizBox = ({
           setModalVisible(!modalVisible);
         }}>
         <View className="absolute bottom-[30px] h-[40%] w-[87%] left-[25px] bg-ternary">
-          <InstructionsPopup command={OpenInstructions} time={formattedTime} />
+          <InstructionsPopup
+            command={OpenInstructions}
+            time={formatTime(time)}
+          />
         </View>
       </Modal>
     </ScrollView>

@@ -5,33 +5,27 @@ import Heading from '../../feature/Heading/Heading';
 import {AnswersContext} from '../../../App';
 import {useContext, useEffect, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
+import Timer from './Timer';
 
 interface QuizScreenProps {
   navigation: any;
 }
 
 const QuizScreen = ({navigation}: QuizScreenProps) => {
-  const {allAnswers, setAllAnswers, answers, checked, writtenAnswer, quizInfo} =
-    useContext(AnswersContext);
-
-  const [seconds, setSeconds] = useState(quizInfo?.time);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds - 1);
-    }, 1000);
-
-    if (seconds === 0) {
-      navigation.navigate('EndScreen', {quizId: quizInfo.id});
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [seconds]);
+  const {
+    allAnswers,
+    setAllAnswers,
+    answers,
+    checked,
+    writtenAnswer,
+    quizInfo,
+    setHelpUsed,
+    helpUsed,
+  } = useContext(AnswersContext);
 
   const [hintUsed, setHintUsed] = useState(false);
   const [flag, setFlag] = useState(false);
+  const [flagHelp, setFlagHelp] = useState(false);
 
   const [index, setIndex] = useState(0);
 
@@ -46,8 +40,14 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     }
   };
 
+  const useHelp = () => {
+    setHelpUsed(true);
+    setFlagHelp(true);
+  };
+
   const submit = () => {
     setFlag(false);
+    setHelpUsed(false);
     switch (quizInfo?.questions[index].type) {
       case 'single':
         setAllAnswers([...allAnswers, checked]);
@@ -93,11 +93,20 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
               <Icon name="lightbulb-o" size={40} color="black" />
             </TouchableOpacity>
           )}
-
-          <Text className="mx-6 text-black text-[24px]">{seconds}</Text>
-          <TouchableOpacity>
-            <Icon name="star-half-o" size={40} color="black" />
-          </TouchableOpacity>
+          <Timer
+            quizId={quizInfo.id}
+            time={quizInfo?.time}
+            navigation={navigation}
+          />
+          {quizInfo?.questions[index].type !== 'text' ? (
+            flagHelp ? (
+              <Icon name="star-half-o" size={40} color="gray" />
+            ) : (
+              <TouchableOpacity onPress={useHelp}>
+                <Icon name="star-half-o" size={40} color="black" />
+              </TouchableOpacity>
+            )
+          ) : null}
         </View>
         <View className="bg-white w-[90%] m-auto rounded-xl">
           {flag ? (

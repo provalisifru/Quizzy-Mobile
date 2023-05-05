@@ -26,6 +26,8 @@ const AppProvider = ({children}: any) => {
   const [isGuest, setIsGuest] = useState(false);
   const [userId, setUserId] = useState('');
 
+  const [helpUsed, setHelpUsed] = useState(false);
+
   const getQuizInfo = (quizId: string) => {
     api.getQuiz(quizId).then(response => {
       if (response?.status === 200) {
@@ -53,6 +55,8 @@ const AppProvider = ({children}: any) => {
         setIsGuest,
         userId,
         setUserId,
+        helpUsed,
+        setHelpUsed,
       }}>
       {children}
     </AnswersContext.Provider>
