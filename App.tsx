@@ -23,6 +23,7 @@ const AppProvider = ({children}: any) => {
   const [checked, setChecked] = useState('');
   const [writtenAnswer, setWrittenAnswer] = useState('');
   const [answers, setAnswers] = useState('');
+  const [isGuest, setIsGuest] = useState(false);
 
   const getQuizInfo = (quizId: string) => {
     api.getQuiz(quizId).then(response => {
@@ -39,14 +40,16 @@ const AppProvider = ({children}: any) => {
       value={{
         allAnswers,
         setAllAnswers,
-        getQuizInfo,
         quizInfo,
-        setChecked,
+        getQuizInfo,
         checked,
-        setWrittenAnswer,
+        setChecked,
         writtenAnswer,
-        setAnswers,
+        setWrittenAnswer,
         answers,
+        setAnswers,
+        isGuest,
+        setIsGuest,
       }}>
       {children}
     </AnswersContext.Provider>

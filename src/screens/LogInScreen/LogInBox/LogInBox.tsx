@@ -1,9 +1,10 @@
-import {useState} from 'react';
 import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import Input from '../../../components/Input/Input';
 import AppButton from '../../../components/Button/AppButton';
 import api from '../../../api/methods';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AnswersContext} from '../../../../App';
+import {useState, useContext} from 'react';
 
 interface LogInBoxProps {
   navigation: any;
@@ -12,6 +13,12 @@ interface LogInBoxProps {
 const LogInBox = ({navigation}: LogInBoxProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const {setIsGuest} = useContext(AnswersContext);
+
+  const handleGuestLogin = () => {
+    setIsGuest(true);
+    navigation.navigate('Home');
+  };
 
   const command = async () => {
     await api.logIn(username, password).then(response => {
@@ -55,7 +62,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
           textStyle="text-white text-[18px]"
           styles="bg-primary mt-[20px] mx-auto w-[100px] h-[50px] rounded-[60px]"
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress={handleGuestLogin}>
           <Text className="text-primary text-center mt-[10px] text-[20px] font-bold">
             Continue as guest
           </Text>

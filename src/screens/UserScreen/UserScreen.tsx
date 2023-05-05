@@ -1,11 +1,5 @@
 import {useState, useEffect} from 'react';
-import {
-  ScrollView,
-  Modal,
-  View,
-  Touchable,
-  TouchableOpacity,
-} from 'react-native';
+import {ScrollView, Modal, View} from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
 import Search from './Search/Search';
@@ -100,7 +94,11 @@ const UserScreen = ({navigation}: UserScreenProps) => {
 
   return (
     <ScrollView className="h-full bg-primary flex flex-column">
-      <Heading navigation={navigation} iconName={true} />
+      <Heading
+        navigation={navigation}
+        iconName={true}
+        isInvitationShown={true}
+      />
       <Search
         setSearch={setSearch}
         onFocus={() => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import QuizBox from './QuizBox/QuizBox';
-import HeadingWithoutInvitation from '../../feature/HeadingWithoutInvitation/HeadingWithoutInvitation';
+import Heading from '../../feature/Heading/Heading';
 
 interface QuizInfoProps {
   navigation: any;
@@ -12,7 +12,11 @@ const QuizInfo = ({route, navigation}: QuizInfoProps) => {
   let {quizId, name, description, category, time} = route.params;
   return (
     <View className="bg-primary h-full">
-      <HeadingWithoutInvitation navigation={navigation} />
+      <Heading
+        navigation={navigation}
+        iconName={false}
+        isInvitationShown={false}
+      />
       <QuizBox
         name={name}
         description={description}

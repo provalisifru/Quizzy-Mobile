@@ -54,7 +54,7 @@ switch (results as string) {
 const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {allAnswers} = useContext(AnswersContext);
 
-  console.log('Ovo su finalni odgovori', allAnswers);
+  // console.log('Ovo su finalni odgovori', allAnswers);
 
   const {quizId} = route.params;
 

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {AnswersContext} from '../../../../App';
