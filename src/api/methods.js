@@ -50,4 +50,36 @@ const getScoreboard = async quizId => {
   }
 };
 
-export default {logIn, getQuizzes, getQuiz, getCategories, getScoreboard};
+const getInvitations = async userId => {
+  try {
+    const response = await axios.get(
+      `${url}/api/invites/invited/${userId}`,
+      {},
+    );
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const declineInvitation = async invId => {
+  try {
+    const response = await axios.patch(
+      `${url}/api/invites/deactivate/${invId}`,
+      {},
+    );
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+export default {
+  logIn,
+  getQuizzes,
+  getQuiz,
+  getCategories,
+  getScoreboard,
+  getInvitations,
+  declineInvitation,
+};

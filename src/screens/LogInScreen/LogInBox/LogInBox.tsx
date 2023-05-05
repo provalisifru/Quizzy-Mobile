@@ -13,7 +13,7 @@ interface LogInBoxProps {
 const LogInBox = ({navigation}: LogInBoxProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const {setIsGuest} = useContext(AnswersContext);
+  const {setIsGuest, setUserId} = useContext(AnswersContext);
 
   const handleGuestLogin = () => {
     setIsGuest(true);
@@ -25,6 +25,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
       if (response?.status === 200) {
         AsyncStorage.setItem('username', username);
         AsyncStorage.setItem('password', password);
+        setUserId(response.data.id);
         navigation.navigate('Home');
       } else {
         Alert.alert(

@@ -1,4 +1,4 @@
-import {Text, View, TouchableOpacity, Alert, Modal} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Heading from '../../feature/Heading/Heading';

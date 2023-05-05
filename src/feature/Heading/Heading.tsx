@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Title from '../../components/Title/Title';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -31,19 +31,13 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
       <View className="ml-[-30px]">
         {!isGuest && isInvitationShown ? (
           iconName ? (
-            <Icon
-              onPress={() => navigation.navigate('Invitation')}
-              name="envelope"
-              size={30}
-              color="#FFC93C"
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Invitation')}>
+              <Icon name="envelope" size={30} color="#FFC93C" />
+            </TouchableOpacity>
           ) : (
-            <Icon
-              onPress={() => navigation.navigate('Home')}
-              name="envelope-open"
-              size={30}
-              color="#FFC93C"
-            />
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Icon name="envelope-open" size={30} color="#FFC93C" />
+            </TouchableOpacity>
           )
         ) : null}
       </View>

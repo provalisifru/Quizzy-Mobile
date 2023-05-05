@@ -12,8 +12,12 @@ interface InvitationScreenProps {
 const InvitationScreen = ({navigation}: InvitationScreenProps) => {
   return (
     <View className="bg-primary v-full h-full">
-      <Heading navigation={navigation} iconName={false} />
-      <InviteBox />
+      <Heading
+        navigation={navigation}
+        iconName={false}
+        isInvitationShown={true}
+      />
+      <InviteBox navigation={navigation} />
     </View>
   );
 };
