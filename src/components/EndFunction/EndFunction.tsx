@@ -4,6 +4,7 @@ import Input from '../Input/Input';
 import AppButton from '../Button/AppButton';
 import api from '../../api/methods';
 import {AnswersContext} from '../../../App';
+import {AdornmentSide} from 'react-native-paper/lib/typescript/src/components/TextInput/Adornment/enums';
 
 interface EndFunctionProps {
   navigation: any;
@@ -18,8 +19,8 @@ const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
   const sendInvite = async requestBody => {
     await api.sendInvitation(requestBody).then(response => {
       if (response?.status === 200) {
+        console.log(response.data);
         setMessage(response.data);
-        console.log(message);
       } else {
         console.log(response.error);
       }

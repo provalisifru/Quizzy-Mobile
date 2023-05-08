@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
-import formatTime from './TimeFormatter';
+import utils from '../../utils/utils';
 
 const Timer = ({time, navigation, quizId}) => {
   const [seconds, setSeconds] = useState(time);
@@ -19,7 +19,9 @@ const Timer = ({time, navigation, quizId}) => {
   }, [seconds]);
   return (
     <View>
-      <Text className="mx-6 text-black text-[24px]">{formatTime(seconds)}</Text>
+      <Text className="mx-6 text-black text-[24px]">
+        {utils.formatTime(seconds)}
+      </Text>
     </View>
   );
 };

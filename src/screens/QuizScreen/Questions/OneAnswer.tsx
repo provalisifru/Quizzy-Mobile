@@ -43,7 +43,7 @@ const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
       <Text className="text-black m-2 underline font-medium text-[18px]">
         {index + 1}. {quizQuestion}
       </Text>
-      {answer}
+      {answer.sort(() => (Math.random() > 0.5 ? 1 : -1))}
     </View>
   );
 };

@@ -1,9 +1,9 @@
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, BackHandler, Alert} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Heading from '../../feature/Heading/Heading';
 import {AnswersContext} from '../../../App';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 import Timer from './Timer';
 
@@ -44,6 +44,19 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     setHelpUsed(true);
     setFlagHelp(true);
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   const submit = () => {
     setFlag(false);

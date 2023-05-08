@@ -1,12 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Text,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from 'react-native';
+import {Text, ScrollView, View, TouchableOpacity, Modal} from 'react-native';
 import AppButton from '../../../components/Button/AppButton';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -14,7 +7,8 @@ import CardImage from '../../../CardImage';
 import InstructionsPopup from '../InstructionsPopup/InstructionsPopup';
 
 import {AnswersContext} from '../../../../App';
-import formatTime from '../../QuizScreen/TimeFormatter';
+import utils from '../../../utils/utils';
+import TextButton from '../../../components/TextButton/TextButton';
 
 interface QuizBoxProps {
   quizId?: string;
@@ -72,7 +66,7 @@ const QuizBox = ({
           <View className="flex flex-row items-center justify-center mb-6">
             <Icon name="timer-sand" size={30} color="black" />
             <Text className="text-black text-[20px]">
-              {formatTime(time)} minutes
+              {utils.formatTime(time)} minutes
             </Text>
           </View>
           <AppButton
@@ -82,9 +76,7 @@ const QuizBox = ({
             styles="bg-primary p-[5px] mx-auto w-[130px] text-[25px] rounded-[60px]"
           />
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text className="text-primary text-center mt-[10px] text-[20px] font-bold">
-              Back to quizzes
-            </Text>
+            <TextButton navigation={navigation} text={'Back to quizzes'} />
           </TouchableOpacity>
         </View>
       </View>
@@ -98,7 +90,7 @@ const QuizBox = ({
         <View className="absolute bottom-[30px] h-[40%] w-[87%] left-[25px] bg-ternary">
           <InstructionsPopup
             command={OpenInstructions}
-            time={formatTime(time)}
+            time={utils.formatTime(time)}
           />
         </View>
       </Modal>

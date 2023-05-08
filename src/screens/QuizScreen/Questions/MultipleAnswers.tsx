@@ -1,10 +1,27 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {AnswersContext} from '../../../../App';
 
 const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
   const {answers, setAnswers} = useContext(AnswersContext);
+  const [toggleCheckBox, setToggleCheckBox] = useState([]);
+
+  useEffect(() => {
+    setToggleCheckBox(
+      quizAnswers.map(answer => ({...answer, isSelected: false})),
+    );
+  }, [quizAnswers]);
+
+  const setFlagged = answerId => {
+    setToggleCheckBox(prev =>
+      prev.map(answer => ({
+        ...answer,
+        isSelected:
+          answerId === answer.id ? !answer.isSelected : answer.isSelected,
+      })),
+    );
+  };
 
   const handleChange = answer => {
     if (answers.length === 0) {
@@ -18,21 +35,20 @@ const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
     }
   };
 
-  let showAnswers = quizAnswers.map(quizAnswer => {
-    const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  let showAnswers = toggleCheckBox.map(quizAnswer => {
     return (
       <TouchableOpacity
         key={quizAnswer.text}
         className="flex flex-row items-center"
         onPress={() => {
-          setToggleCheckBox(!toggleCheckBox);
+          setFlagged(quizAnswer.id);
           handleChange(quizAnswer);
         }}>
         <View>
           <CheckBox
             disabled={false}
-            value={toggleCheckBox}
-            onValueChange={newValue => setToggleCheckBox(newValue)}
+            value={quizAnswer.isSelected}
+            onValueChange={() => setFlagged(quizAnswer.id)}
           />
         </View>
         <Text className="font-bold text-[18px] m-2">{quizAnswer.text}</Text>

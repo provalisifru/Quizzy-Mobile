@@ -5,26 +5,43 @@ interface quizAnswersProps {
   text: string;
 }
 
-const help = (quizAnswers: quizAnswersProps[]) => {
+const help = (quizAnswers: quizAnswersProps) => {
   const findCorrectAnswers = () => {
-    let correctAnswers = quizAnswers.find(
+    let correctAnswers = quizAnswers.filter(
       (answer: {correct: boolean}) => answer.correct === true,
     );
     return correctAnswers;
   };
-  const findIncorrectAnswer = () => {
+  const findIncorrectAnswers = () => {
     let help = quizAnswers.filter(
       (answer: {correct: boolean}) => answer.correct !== true,
     );
-    let randomIndex = Math.floor(Math.random() * help.length);
-    let randomAnswer = help.find(
+
+    return help;
+  };
+
+  const returnOneIncorrectAnswer = answers => {
+    let randomIndex = Math.floor(Math.random() * answers.length);
+    let randomAnswer = answers.find(
       (element: any, i: number) => i === randomIndex,
     );
     return randomAnswer;
   };
 
-  quizAnswers = [findCorrectAnswers(), findIncorrectAnswer()];
+  quizAnswers = [
+    ...findCorrectAnswers(),
+    returnOneIncorrectAnswer(findIncorrectAnswers()),
+  ];
   return quizAnswers.sort(() => (Math.random() > 0.5 ? 1 : -1));
 };
 
-export default {help};
+const formatTime = seconds => {
+  let minutes = Math.floor(seconds / 60);
+  let extraSeconds = seconds % 60;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  extraSeconds = extraSeconds < 10 ? '0' + extraSeconds : extraSeconds;
+
+  return `${minutes}:${extraSeconds}`;
+};
+
+export default {help, formatTime};
