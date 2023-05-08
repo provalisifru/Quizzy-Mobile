@@ -56,8 +56,6 @@ switch (results as string) {
 const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {quizId} = route.params;
 
-  console.log(quizId);
-
   return (
     <View className="bg-primary h-full">
       <Heading

@@ -1,7 +1,7 @@
 /// <reference types="nativewind/types" />
 
 import React, {Dispatch, SetStateAction, createContext, useState} from 'react';
-import LoginNavigator from './src/screens/LogInScreen/LoginNavigator/LoginNavigator';
+import LoginNavigator from './src/navigator/Navigator';
 import api from './src/api/methods';
 import {QuizInfoInterface} from './src/Interfaces';
 
@@ -20,7 +20,7 @@ export const AnswersContext = createContext<{
 const AppProvider = ({children}: any) => {
   const [allAnswers, setAllAnswers] = useState<string[]>([]);
   const [quizInfo, setQuizInfo] = useState<QuizInfoInterface>();
-  const [checked, setChecked] = useState('');
+  const [checked, setChecked] = useState<string>('');
   const [writtenAnswer, setWrittenAnswer] = useState('');
   const [answers, setAnswers] = useState('');
   const [isGuest, setIsGuest] = useState(false);

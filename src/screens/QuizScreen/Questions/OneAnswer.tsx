@@ -15,7 +15,7 @@ const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
 
   let answers = {quizAnswers}.quizAnswers;
 
-  let answer = answers.map((answer, id) => {
+  let answer = answers.map((answer: object, id: number) => {
     return (
       <View key={id}>
         <TouchableOpacity

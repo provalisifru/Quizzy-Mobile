@@ -4,6 +4,7 @@ import LogInBox from './LogInBox/LogInBox';
 import Title from '../../components/Title/Title';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {RouteProp} from '@react-navigation/native';
 
 interface LogInScreen {
   navigation: any;

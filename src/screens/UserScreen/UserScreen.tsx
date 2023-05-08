@@ -17,15 +17,15 @@ interface QuizModel {
   category?: string;
   name?: string;
   description?: string;
-  time?: any;
+  time?: number;
 }
 
 const UserScreen = ({navigation}: UserScreenProps) => {
   const [quizInfo, setQuizInfo] = useState<QuizModel[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [chosenCategory, setChosenCategory] = useState('');
-  const [search, setSearch] = useState('');
+  const [categories, setCategories] = useState<string[]>([]);
+  const [chosenCategory, setChosenCategory] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [listType, setListType] = useState('default');
   const [visibleLoader, setVisibleLoader] = useState(true);
 
@@ -61,7 +61,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
 
   switch (listType) {
     case 'search': {
-      let quizzes = [];
+      let quizzes: any[] = [];
       quizInfo.forEach(quiz => {
         if (quiz.name?.toLowerCase().includes(search.toLowerCase())) {
           quizzes.push(quiz);

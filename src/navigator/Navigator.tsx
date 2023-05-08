@@ -1,18 +1,16 @@
-import React from 'react';
-
-import LogIn from '../../LogInScreen/LogInScreen';
-import UserScreen from '../../UserScreen/UserScreen';
-import InvitationScreen from '../../UserScreen/InvitationScreen/InvitationScreen';
-import QuizInfo from '../../QuizInfo/QuizInfo';
-import Quiz from '../../QuizScreen/QuizScreen';
-import EndScreen from '../../EndScreen/EndScreen';
+import LogIn from '../screens/LogInScreen/LogInScreen';
+import UserScreen from '../screens/UserScreen/UserScreen';
+import InvitationScreen from '../screens/InvitationScreen/InvitationScreen';
+import QuizInfo from '../screens/QuizInfo/QuizInfo';
+import Quiz from '../screens/QuizScreen/QuizScreen';
+import EndScreen from '../screens/EndScreen/EndScreen';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const LoginNavigator = () => {
+const Navigator = () => {
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -27,4 +25,4 @@ const LoginNavigator = () => {
   );
 };
 
-export default LoginNavigator;
+export default Navigator;

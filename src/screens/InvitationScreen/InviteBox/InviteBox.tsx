@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
-import api from '../../../../api/methods';
+import api from '../../../api/methods';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AnswersContext} from '../../../../../App';
+import {AnswersContext} from '../../../../App';
 
 const InviteBox = ({navigation}) => {
   const [invites, setInvites] = useState([]);

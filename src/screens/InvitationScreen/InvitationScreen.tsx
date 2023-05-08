@@ -2,7 +2,7 @@ import React from 'react';
 
 import {View} from 'react-native';
 
-import Heading from '../../../feature/Heading/Heading';
+import Heading from '../../feature/Heading/Heading';
 import InviteBox from './InviteBox/InviteBox';
 
 interface InvitationScreenProps {
