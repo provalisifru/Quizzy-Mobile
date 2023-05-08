@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {ScrollView, Modal, View} from 'react-native';
+import {ScrollView, Modal, View, ActivityIndicator} from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
 import Search from './Search/Search';
@@ -26,12 +26,14 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState('');
   const [search, setSearch] = useState('');
-  let [listType, setListType] = useState('default');
+  const [listType, setListType] = useState('default');
+  const [visibleLoader, setVisibleLoader] = useState(true);
 
   useEffect(() => {
     const getQuizzes = async () => {
       const response = await api.getQuizzes();
       setQuizInfo(response);
+      setVisibleLoader(false);
     };
     const getCategories = async () => {
       const response = await api.getCategories();
@@ -110,6 +112,15 @@ const UserScreen = ({navigation}: UserScreenProps) => {
         category={chosenCategory ? chosenCategory : 'Categories'}
         command={OpenCategory}
       />
+      {visibleLoader ? (
+        <View className="mt-[200px]">
+          <ActivityIndicator
+            animating={visibleLoader}
+            size={100}
+            color="#FFC93C"
+          />
+        </View>
+      ) : null}
       {cardList}
       <Modal
         animationType="slide"
