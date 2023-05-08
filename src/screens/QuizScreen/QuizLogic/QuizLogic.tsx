@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import OneAnswer from '../Questions/OneAnswer';
 import MultipleAnswers from '../Questions/MultipleAnswers';
 import WriteAnswer from '../Questions/WriteAnswer';

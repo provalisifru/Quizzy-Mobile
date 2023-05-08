@@ -8,6 +8,7 @@ interface EndMessageProps {
   message: string;
   icon: string;
   isInvite: any;
+  quizId: string;
 }
 
 const EndMessage = ({
@@ -17,6 +18,7 @@ const EndMessage = ({
   Component,
   icon,
   isInvite,
+  quizId,
 }: EndMessageProps) => {
   return (
     <View className="bg-secondary rounded-[70px] flex flex-column items-center m-4 p-2">
@@ -25,7 +27,7 @@ const EndMessage = ({
       {isInvite ? (
         <Component icon={icon} navigation={navigation} />
       ) : (
-        <EndFunction navigation={navigation} />
+        <EndFunction navigation={navigation} quizId={quizId} />
       )}
     </View>
   );

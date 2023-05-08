@@ -3,7 +3,7 @@ import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Heading from '../../feature/Heading/Heading';
 import {AnswersContext} from '../../../App';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 import Timer from './Timer';
 
@@ -98,7 +98,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
             time={quizInfo?.time}
             navigation={navigation}
           />
-          {quizInfo?.questions[index].type !== 'text' ? (
+          {quizInfo.questions[index].type !== 'text' ? (
             flagHelp ? (
               <Icon name="star-half-o" size={40} color="gray" />
             ) : (

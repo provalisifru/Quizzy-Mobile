@@ -1,21 +1,49 @@
-import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../Input/Input';
 import AppButton from '../Button/AppButton';
+import api from '../../api/methods';
+import {AnswersContext} from '../../../App';
 
 interface EndFunctionProps {
   navigation: any;
+  quizId: string;
 }
 
-const EndFunction = ({navigation}: EndFunctionProps) => {
+const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
+  const [message, setMessage] = useState('');
+  const [friendUsername, setFriendUsername] = useState('');
+  const {userId} = useContext(AnswersContext);
+
+  const sendInvite = async requestBody => {
+    await api.sendInvitation(requestBody).then(response => {
+      if (response?.status === 200) {
+        setMessage(response.data);
+        console.log(message);
+      } else {
+        console.log(response.error);
+      }
+    });
+  };
+
   return (
     <View>
       <View className=" px-[20px] bg-white rounded-[50px] my-5">
-        <Input styles="text-[16px]" placeholder="Enter friend's username..." />
+        <Input
+          styles="text-[16px]"
+          placeholder="Enter friend's username..."
+          setState={setFriendUsername}
+        />
       </View>
       <View className="flex-row items-center mb-4">
         <AppButton
-          // onPress={command}
+          onPress={() =>
+            sendInvite({
+              userId: userId,
+              quizId: quizId,
+              username: friendUsername,
+            })
+          }
           text="Invite"
           textStyle="text-white text-[18px]"
           styles="bg-primary w-[100px] h-[50px] rounded-[60px]"

@@ -74,6 +74,15 @@ const declineInvitation = async invId => {
   }
 };
 
+const sendInvitation = async requestBody => {
+  try {
+    const response = await axios.post(`${url}/api/invites`, requestBody);
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 export default {
   logIn,
   getQuizzes,
@@ -82,4 +91,5 @@ export default {
   getScoreboard,
   getInvitations,
   declineInvitation,
+  sendInvitation,
 };

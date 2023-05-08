@@ -2,11 +2,9 @@ import {View} from 'react-native';
 import Title from '../../components/Title/Title';
 import AppButton from '../../components/Button/AppButton';
 import EndMessage from './EndMessage/EndMessage';
-import {useContext, useState} from 'react';
 
 import InviteEndFunction from '../../components/InviteEndFunction/InviteEndFunction';
 import Scoreboard from './Scoreboard/Scoreboard';
-import {AnswersContext} from '../../../App';
 
 interface EndScreenProps {
   navigation: any;
@@ -52,10 +50,6 @@ switch (results as string) {
 }
 
 const EndScreen = ({navigation, route}: EndScreenProps) => {
-  const {allAnswers} = useContext(AnswersContext);
-
-  // console.log('Ovo su finalni odgovori', allAnswers);
-
   const {quizId} = route.params;
 
   return (
@@ -76,6 +70,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
         title={title}
         message={message}
         isInvite={isInvite}
+        quizId={quizId}
       />
       <Scoreboard quizId={quizId} />
     </View>
