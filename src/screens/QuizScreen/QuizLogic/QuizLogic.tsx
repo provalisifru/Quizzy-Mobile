@@ -11,7 +11,7 @@ interface QuizLogicProps {
 }
 
 const QuizLogic = ({index}: QuizLogicProps) => {
-  const {quizInfo, helpUsed} = useContext(AnswersContext);
+  const {quizInfo, helpUsed, setHelpUsed} = useContext(AnswersContext);
 
   let quizAnswers = quizInfo.questions[index].answers;
 

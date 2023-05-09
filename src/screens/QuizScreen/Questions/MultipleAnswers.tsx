@@ -23,17 +23,10 @@ const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
     );
   };
 
-  const handleChange = answer => {
-    if (answers.length === 0) {
-      setAnswers([...answers, answer]);
-    } else {
-      if (answers.includes(answer)) {
-        setAnswers(prev => prev.filter(val => val !== answer));
-      } else {
-        setAnswers([...answers, answer]);
-      }
-    }
-  };
+  useEffect(() => {
+    let checkedAnswers = toggleCheckBox.filter(val => val.isSelected === true);
+    setAnswers(checkedAnswers);
+  }, [toggleCheckBox]);
 
   let showAnswers = toggleCheckBox.map(quizAnswer => {
     return (
@@ -42,7 +35,6 @@ const MultipleAnswers = ({index, quizAnswers, quizQuestion}) => {
         className="flex flex-row items-center"
         onPress={() => {
           setFlagged(quizAnswer.id);
-          handleChange(quizAnswer);
         }}>
         <View>
           <CheckBox

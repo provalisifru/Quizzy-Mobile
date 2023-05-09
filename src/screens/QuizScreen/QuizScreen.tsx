@@ -6,6 +6,7 @@ import {AnswersContext} from '../../../App';
 import {useContext, useEffect, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 import Timer from './Timer';
+import api from '../../api/methods';
 
 interface QuizScreenProps {
   navigation: any;
@@ -20,7 +21,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     writtenAnswer,
     quizInfo,
     setHelpUsed,
-    helpUsed,
+    userId,
   } = useContext(AnswersContext);
 
   const [hintUsed, setHintUsed] = useState(false);
@@ -76,12 +77,24 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         ]);
         break;
       case 'multi':
-        setAllAnswers([...allAnswers, answers]);
+        setAllAnswers([...allAnswers, ...answers]);
       default:
         break;
     }
     if (index === quizLength) {
-      navigation.navigate('EndScreen', {quizId: quizInfo.id});
+      const endQuiz = async (quizId, userId, allAnswers) => {
+        await api.endQuiz(quizId, userId, allAnswers).then(response => {
+          if (response?.status === 200) {
+            navigation.navigate('EndScreen', {
+              quizId: quizInfo.id,
+              score: response.data,
+            });
+          } else {
+            console.log(response.error);
+          }
+        });
+      };
+      endQuiz(quizInfo?.id, userId, allAnswers);
     } else {
       setIndex(index + 1);
     }

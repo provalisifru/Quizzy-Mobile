@@ -25,6 +25,8 @@ const AppProvider = ({children}: any) => {
   const [answers, setAnswers] = useState('');
   const [isGuest, setIsGuest] = useState(false);
   const [userId, setUserId] = useState('');
+  const [scoreboard, setScoreboard] = useState([]);
+  const [isLoadingScoreboard, setIsLoadingScoreboard] = useState(false);
 
   const [helpUsed, setHelpUsed] = useState(false);
 
@@ -57,6 +59,10 @@ const AppProvider = ({children}: any) => {
         setUserId,
         helpUsed,
         setHelpUsed,
+        scoreboard,
+        setScoreboard,
+        isLoadingScoreboard,
+        setIsLoadingScoreboard,
       }}>
       {children}
     </AnswersContext.Provider>

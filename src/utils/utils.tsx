@@ -21,10 +21,7 @@ const help = (quizAnswers: quizAnswersProps) => {
   };
 
   const returnOneIncorrectAnswer = answers => {
-    let randomIndex = Math.floor(Math.random() * answers.length);
-    let randomAnswer = answers.find(
-      (element: any, i: number) => i === randomIndex,
-    );
+    let randomAnswer = answers.find((element: any, i: number) => i === 1);
     return randomAnswer;
   };
 
@@ -32,7 +29,7 @@ const help = (quizAnswers: quizAnswersProps) => {
     ...findCorrectAnswers(),
     returnOneIncorrectAnswer(findIncorrectAnswers()),
   ];
-  return quizAnswers.sort(() => (Math.random() > 0.5 ? 1 : -1));
+  return quizAnswers;
 };
 
 const formatTime = seconds => {

@@ -83,6 +83,17 @@ const sendInvitation = async requestBody => {
   }
 };
 
+const endQuiz = async (quizId, userId, answers) => {
+  try {
+    const response = await axios.post(`${url}/api/quizzes/ended`, answers, {
+      params: {quizId: quizId, userId: userId},
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default {
   logIn,
   getQuizzes,
@@ -92,4 +103,5 @@ export default {
   getInvitations,
   declineInvitation,
   sendInvitation,
+  endQuiz,
 };
