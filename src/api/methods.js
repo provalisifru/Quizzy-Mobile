@@ -28,7 +28,7 @@ const getQuiz = async quizId => {
     const response = await axios.get(`${url}/api/quizzes/${quizId}`);
     return response;
   } catch (error) {
-    return error.message;
+    console.log(error.message);
   }
 };
 
@@ -62,7 +62,7 @@ const getInvitations = async userId => {
   }
 };
 
-const declineInvitation = async invId => {
+const deleteInvitation = async invId => {
   try {
     const response = await axios.patch(
       `${url}/api/invites/deactivate/${invId}`,
@@ -101,7 +101,7 @@ export default {
   getCategories,
   getScoreboard,
   getInvitations,
-  declineInvitation,
+  deleteInvitation,
   sendInvitation,
   endQuiz,
 };

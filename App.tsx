@@ -8,7 +8,10 @@ import {QuizInfoInterface} from './src/Interfaces';
 export const AnswersContext = createContext<{
   allAnswers: string[];
   setAllAnswers: Dispatch<SetStateAction<string[]>>;
-  getQuizInfo: (quizId: string) => void;
+  getQuizInfo: (
+    quizId: string,
+    dispatch: (success: boolean, data: any) => void,
+  ) => void;
   quizInfo?: QuizInfoInterface;
 }>({
   allAnswers: [],
@@ -27,15 +30,22 @@ const AppProvider = ({children}: any) => {
   const [userId, setUserId] = useState('');
   const [scoreboard, setScoreboard] = useState([]);
   const [isLoadingScoreboard, setIsLoadingScoreboard] = useState(false);
+  const [isInvite, setIsInvite] = useState(false);
+  const [inviteId, setInviteId] = useState('');
 
   const [helpUsed, setHelpUsed] = useState(false);
 
-  const getQuizInfo = (quizId: string) => {
+  const getQuizInfo = (
+    quizId: string,
+    dispatch: (success: boolean, data: any) => void,
+  ) => {
     api.getQuiz(quizId).then(response => {
       if (response?.status === 200) {
         setQuizInfo(response.data);
+        dispatch(true, response.data);
       } else {
         console.log('Error', response.error);
+        dispatch(false, null);
       }
     });
   };
@@ -63,6 +73,11 @@ const AppProvider = ({children}: any) => {
         setScoreboard,
         isLoadingScoreboard,
         setIsLoadingScoreboard,
+        isInvite,
+        setIsInvite,
+        setQuizInfo,
+        inviteId,
+        setInviteId,
       }}>
       {children}
     </AnswersContext.Provider>

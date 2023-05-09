@@ -20,7 +20,7 @@ interface EndScreenProps {
 
 const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {quizId, score} = route.params;
-  const {scoreboard} = useContext(AnswersContext);
+  const {scoreboard, isInvite, inviteId} = useContext(AnswersContext);
   const [message, setMessage] = useState({});
 
   useEffect(() => {
@@ -30,6 +30,18 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
     }
     if (score >= scoreboard?.[0]?.score || scoreboard.length === 0) {
       results = 'highScore';
+    }
+
+    if (isInvite) {
+      if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
+        return;
+      } else {
+        const inviteScore = scoreboard.find(score => (score.id = inviteId));
+        console.log(inviteScore);
+        if (score > inviteScore) results = 'win';
+        else if (score < inviteScore) results = 'lost';
+        else results = 'tie';
+      }
     }
 
     switch (results as string) {

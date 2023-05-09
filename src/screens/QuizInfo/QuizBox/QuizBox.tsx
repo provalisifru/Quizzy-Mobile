@@ -11,49 +11,49 @@ import utils from '../../../utils/utils';
 import TextButton from '../../../components/TextButton/TextButton';
 
 interface QuizBoxProps {
-  quizId?: string;
-  navigation?: any;
-  category?: string;
-  name?: string;
-  description?: string;
-  time?: any;
+  data: any;
+  inviteId: any;
+  navigation: any;
 }
 
-const QuizBox = ({
-  quizId,
-  category,
-  name,
-  description,
-  time,
-  navigation,
-}: QuizBoxProps) => {
+const QuizBox = ({data, inviteId, navigation}: QuizBoxProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const {getQuizInfo, quizInfo} = useContext(AnswersContext);
+  const {quizInfo, getQuizInfo, setQuizInfo, setInviteId, isInvite} =
+    useContext(AnswersContext);
 
   const OpenInstructions = () => {
     setModalVisible(!modalVisible);
   };
 
   useEffect(() => {
-    getQuizInfo(quizId ?? '');
+    if (isInvite) {
+      setQuizInfo(data);
+      setInviteId(inviteId);
+    } else {
+      getQuizInfo(data.id);
+      console.log('data', data);
+      console.log('quizInfo', quizInfo);
+    }
   }, []);
 
   const startQuiz = () => {
-    navigation.navigate('Quiz', {quizInfo: quizInfo});
+    navigation.navigate('Quiz', {quizInfo: data});
   };
 
   return (
     <ScrollView className="bg-secondary m-3 rounded-xl">
       <View className="bg-secondary flex flex-column items-center rounded-xl">
         <Text className="text-black text-[28px] text-center font-bold m-2">
-          {name}
+          {data.name}
         </Text>
         <CardImage
-          category={category}
+          category={data.category}
           classNameText="w-[90%] h-[150px] mt-5 mb-5 flex"
         />
-        <Text className="w-[90%] text-black text-[16px]">{description}</Text>
+        <Text className="w-[90%] text-black text-[16px]">
+          {data.description}
+        </Text>
         <TouchableOpacity className="self-start m-5" onPress={OpenInstructions}>
           <Text className="text-blue-600 font-bold text-[18px] underline">
             Instructions
@@ -66,7 +66,7 @@ const QuizBox = ({
           <View className="flex flex-row items-center justify-center mb-6">
             <Icon name="timer-sand" size={30} color="black" />
             <Text className="text-black text-[20px]">
-              {utils.formatTime(time)} minutes
+              {utils.formatTime(data.time)} minutes
             </Text>
           </View>
           <AppButton
@@ -90,7 +90,7 @@ const QuizBox = ({
         <View className="absolute bottom-[30px] h-[40%] w-[87%] left-[25px] bg-ternary">
           <InstructionsPopup
             command={OpenInstructions}
-            time={utils.formatTime(time)}
+            time={utils.formatTime(data.time)}
           />
         </View>
       </Modal>

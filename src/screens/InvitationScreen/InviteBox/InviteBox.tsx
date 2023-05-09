@@ -9,7 +9,8 @@ import {AnswersContext} from '../../../../App';
 const InviteBox = ({navigation}) => {
   const [invites, setInvites] = useState([]);
 
-  const {getQuizInfo, quizInfo, userId} = useContext(AnswersContext);
+  const {getQuizInfo, userId, setInviteId, setQuizInfo, setIsInvite} =
+    useContext(AnswersContext);
 
   useEffect(() => {
     const command = async () => {
@@ -24,19 +25,19 @@ const InviteBox = ({navigation}) => {
     command();
   }, [invites]);
 
-  const invitationAccept = quizId => {
-    getQuizInfo(quizId ?? '');
-    navigation.navigate('QuizInfo', {
-      quizId: quizInfo.quizId,
-      category: quizInfo.category,
-      name: quizInfo.name,
-      description: quizInfo.description,
-      time: quizInfo.time,
+  const invitationAccept = (quizId, inviteId) => {
+    getQuizInfo(quizId ?? '', (success, data) => {
+      if (success) {
+        navigation.navigate('QuizInfo', {
+          data: data,
+          inviteId: inviteId,
+        });
+      } else return;
     });
   };
 
-  const invitationDecline = invId => {
-    api.declineInvitation(invId);
+  const invitationDecline = (invId: string) => {
+    api.deleteInvitation(invId);
   };
 
   const invitationList = invites.map((invite, id) => {
@@ -47,7 +48,8 @@ const InviteBox = ({navigation}) => {
             {invite.username} invited you to play {invite.quizName}
           </Text>
           <View className="flex flex-row w-[20%] justify-between mr-4">
-            <TouchableOpacity onPress={() => invitationAccept(invite.quizId)}>
+            <TouchableOpacity
+              onPress={() => invitationAccept(invite.quizId, invite.userId)}>
               <Icon name="check" size={30} color="#2CD833" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => invitationDecline(invite.id)}>

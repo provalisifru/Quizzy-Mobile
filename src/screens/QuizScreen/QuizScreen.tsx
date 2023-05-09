@@ -30,6 +30,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
 
   const [index, setIndex] = useState(0);
 
+  console.log(quizInfo);
+
   let quizLength = quizInfo?.questions.length - 1;
 
   const showHint = () => {
@@ -89,6 +91,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
               quizId: quizInfo.id,
               score: response.data,
             });
+            console.log(allAnswers);
           } else {
             console.log(response.error);
           }
