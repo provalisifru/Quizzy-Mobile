@@ -16,6 +16,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const {setIsGuest, setUserId} = useContext(AnswersContext);
 
   const handleGuestLogin = () => {
+    setUserId('99999999-9999-9999-9999-999999999999');
     setIsGuest(true);
     navigation.navigate('Home');
   };

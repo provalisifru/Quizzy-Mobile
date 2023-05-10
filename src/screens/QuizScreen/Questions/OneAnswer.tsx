@@ -6,6 +6,7 @@ import {AnswersContext} from '../../../../App';
 interface OneAnswerProps {
   quizQuestion: string;
   quizAnswers: string;
+  index: number;
 }
 
 const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {

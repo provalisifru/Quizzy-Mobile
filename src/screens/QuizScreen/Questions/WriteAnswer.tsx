@@ -6,6 +6,7 @@ import {AnswersContext} from '../../../../App';
 interface WriteAnswerProps {
   placeholder: string;
   quizQuestion: string;
+  index: number;
 }
 
 const WriteAnswer = ({index, placeholder, quizQuestion}: WriteAnswerProps) => {

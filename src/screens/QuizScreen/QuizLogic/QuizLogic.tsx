@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import OneAnswer from '../Questions/OneAnswer';
 import MultipleAnswers from '../Questions/MultipleAnswers';
 import WriteAnswer from '../Questions/WriteAnswer';
@@ -12,8 +12,11 @@ interface QuizLogicProps {
 
 const QuizLogic = ({index}: QuizLogicProps) => {
   const {quizInfo, helpUsed, setHelpUsed} = useContext(AnswersContext);
+  const [quizAnswers, setQuizAnswers] = useState(quizInfo.questions[0].answers);
 
-  let quizAnswers = quizInfo.questions[index].answers;
+  useEffect(() => {
+    setQuizAnswers(quizInfo.questions[index].answers);
+  }, [index]);
 
   if (helpUsed) {
     quizAnswers = utils.help(quizAnswers);

@@ -24,6 +24,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     userId,
     setChecked,
     setAnswers,
+    isGuest,
   } = useContext(AnswersContext);
 
   const [hintUsed, setHintUsed] = useState(false);
@@ -61,10 +62,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     return () => backHandler.remove();
   }, []);
 
-  const submit = () => {
-    setFlag(false);
-    setHelpUsed(false);
-
+  const saveAnswer = () => {
     switch (quizInfo?.questions[index].type) {
       case 'single':
         setAllAnswers([...allAnswers, checked]);
@@ -86,25 +84,38 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
       default:
         break;
     }
+  };
+
+  const onNext = () => {
+    setFlag(false);
+    setHelpUsed(false);
     if (index === quizLength) {
-      const endQuiz = async (quizId, userId, allAnswers) => {
-        await api.endQuiz(quizId, userId, allAnswers).then(response => {
-          if (response?.status === 200) {
-            navigation.navigate('EndScreen', {
-              quizId: quizInfo.id,
-              score: response.data,
-            });
-          } else {
-            console.log(response.error);
-          }
-        });
-      };
-      endQuiz(quizInfo?.id, userId, allAnswers);
-      console.log(allAnswers);
-      setAllAnswers([]);
+      onSubmit();
     } else {
+      saveAnswer();
       setIndex(index + 1);
     }
+  };
+
+  const onSubmit = () => {
+    const endQuiz = async (quizId, userId, allAnswers) => {
+      await api.endQuiz(quizId, userId, allAnswers).then(response => {
+        if (response?.status === 200) {
+          navigation.navigate('EndScreen', {
+            quizId: quizInfo.id,
+            score: response.data,
+          });
+        } else {
+          console.log(response.error);
+        }
+      });
+    };
+    saveAnswer();
+    setTimeout(() => {
+      endQuiz(quizInfo?.id, userId, allAnswers);
+      setAllAnswers([]);
+    }, 500);
+    console.log(allAnswers);
   };
 
   return (
@@ -130,6 +141,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
             quizId={quizInfo.id}
             time={quizInfo?.time}
             navigation={navigation}
+            onSubmit={onSubmit}
           />
           {quizInfo.questions[index].type !== 'text' ? (
             flagHelp ? (
@@ -151,7 +163,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           <QuizLogic index={index} />
         </View>
         <AppButton
-          onPress={submit}
+          onPress={onNext}
           text={index === quizLength ? 'Finish' : 'Next'}
           textStyle="text-white text-[25px]"
           styles="bg-primary p-[5px] my-6 self-center w-[130px] text-[25px] rounded-[12px]"
