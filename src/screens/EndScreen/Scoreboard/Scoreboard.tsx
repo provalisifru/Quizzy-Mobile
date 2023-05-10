@@ -1,31 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import api from '../../../api/methods';
 import {AnswersContext} from '../../../../App';
 
-interface ScoreboardProps {
-  quizId: string;
-}
-
-const Scoreboard = ({quizId}: ScoreboardProps) => {
-  const {scoreboard, setScoreboard, setIsLoadingScoreboard} =
-    useContext(AnswersContext);
-
-  const getScoreboard = (quizId: string) => {
-    setIsLoadingScoreboard(true);
-    api.getScoreboard(quizId).then(response => {
-      if (response?.status === 200) {
-        setScoreboard(response.data);
-      } else {
-        console.log('Error', response.error);
-      }
-      setIsLoadingScoreboard(false);
-    });
-  };
-
-  useEffect(() => {
-    getScoreboard(quizId);
-  }, []);
+const Scoreboard = () => {
+  const {scoreboard} = useContext(AnswersContext);
 
   let scores = scoreboard.map((score: any, i: number) => {
     return (

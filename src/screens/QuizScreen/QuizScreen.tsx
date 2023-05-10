@@ -22,6 +22,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     quizInfo,
     setHelpUsed,
     userId,
+    setChecked,
+    setAnswers,
   } = useContext(AnswersContext);
 
   const [hintUsed, setHintUsed] = useState(false);
@@ -29,8 +31,6 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const [flagHelp, setFlagHelp] = useState(false);
 
   const [index, setIndex] = useState(0);
-
-  console.log(quizInfo);
 
   let quizLength = quizInfo?.questions.length - 1;
 
@@ -64,9 +64,11 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const submit = () => {
     setFlag(false);
     setHelpUsed(false);
+
     switch (quizInfo?.questions[index].type) {
       case 'single':
         setAllAnswers([...allAnswers, checked]);
+        setChecked('');
         break;
       case 'text':
         setAllAnswers([
@@ -80,6 +82,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         break;
       case 'multi':
         setAllAnswers([...allAnswers, ...answers]);
+        setAnswers('');
       default:
         break;
     }
@@ -91,13 +94,14 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
               quizId: quizInfo.id,
               score: response.data,
             });
-            console.log(allAnswers);
           } else {
             console.log(response.error);
           }
         });
       };
       endQuiz(quizInfo?.id, userId, allAnswers);
+      console.log(allAnswers);
+      setAllAnswers([]);
     } else {
       setIndex(index + 1);
     }

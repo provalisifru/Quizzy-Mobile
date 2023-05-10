@@ -7,6 +7,7 @@ import Heading from '../../feature/Heading/Heading';
 import {RouteProp} from '@react-navigation/native';
 import {AnswersContext} from '../../../App';
 import {useContext, useEffect, useState} from 'react';
+import api from '../../api/methods';
 
 interface MyParams {
   quizId: string;
@@ -20,26 +21,39 @@ interface EndScreenProps {
 
 const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {quizId, score} = route.params;
-  const {scoreboard, isInvite, inviteId} = useContext(AnswersContext);
+  const {scoreboard, isInvite, inviteId, setScoreboard} =
+    useContext(AnswersContext);
   const [message, setMessage] = useState({});
+
+  const getScoreboard = (quizId: string) => {
+    api.getScoreboard(quizId).then(response => {
+      if (response?.status === 200) {
+        setScoreboard(response.data);
+      } else {
+        console.log('Error', response.error);
+      }
+    });
+  };
+  useEffect(() => {
+    getScoreboard(quizId);
+  }, []);
 
   useEffect(() => {
     let results = 'finishedQuiz';
     if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
       return;
     }
-    if (score >= scoreboard?.[0]?.score || scoreboard.length === 0) {
-      results = 'highScore';
+    if (scoreboard.length > 0) {
+      if (score >= scoreboard?.[0]?.score || scoreboard.length === 0) {
+        results = 'highScore';
+      }
     }
 
     if (isInvite) {
-      if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
-        return;
-      } else {
-        const inviteScore = scoreboard.find(score => (score.id = inviteId));
-        console.log(inviteScore);
-        if (score > inviteScore) results = 'win';
-        else if (score < inviteScore) results = 'lost';
+      if (scoreboard.length > 0) {
+        const inviteScore = scoreboard.find(score => score.userId === inviteId);
+        if (score > inviteScore.score) results = 'win';
+        else if (score < inviteScore.score) results = 'lost';
         else results = 'tie';
       }
     }

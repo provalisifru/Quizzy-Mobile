@@ -12,15 +12,13 @@ import TextButton from '../../../components/TextButton/TextButton';
 
 interface QuizBoxProps {
   data: any;
-  inviteId: any;
   navigation: any;
 }
 
-const QuizBox = ({data, inviteId, navigation}: QuizBoxProps) => {
+const QuizBox = ({data, navigation}: QuizBoxProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const {quizInfo, getQuizInfo, setQuizInfo, setInviteId, isInvite} =
-    useContext(AnswersContext);
+  const {getQuizInfo, setQuizInfo, isInvite} = useContext(AnswersContext);
 
   const OpenInstructions = () => {
     setModalVisible(!modalVisible);
@@ -29,11 +27,8 @@ const QuizBox = ({data, inviteId, navigation}: QuizBoxProps) => {
   useEffect(() => {
     if (isInvite) {
       setQuizInfo(data);
-      setInviteId(inviteId);
     } else {
       getQuizInfo(data.id);
-      console.log('data', data);
-      console.log('quizInfo', quizInfo);
     }
   }, []);
 

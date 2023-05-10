@@ -9,7 +9,7 @@ import {AnswersContext} from '../../../../App';
 const InviteBox = ({navigation}) => {
   const [invites, setInvites] = useState([]);
 
-  const {getQuizInfo, userId, setInviteId, setQuizInfo, setIsInvite} =
+  const {getQuizInfo, userId, setInviteId, setIsInvite} =
     useContext(AnswersContext);
 
   useEffect(() => {
@@ -25,12 +25,15 @@ const InviteBox = ({navigation}) => {
     command();
   }, [invites]);
 
-  const invitationAccept = (quizId, inviteId) => {
+  const invitationAccept = (quizId, inviterId, inviteId) => {
+    api.deleteInvitation(inviteId);
+    setInviteId(inviterId);
+    setIsInvite(true);
     getQuizInfo(quizId ?? '', (success, data) => {
       if (success) {
         navigation.navigate('QuizInfo', {
           data: data,
-          inviteId: inviteId,
+          inviterId: inviteId,
         });
       } else return;
     });
@@ -49,7 +52,9 @@ const InviteBox = ({navigation}) => {
           </Text>
           <View className="flex flex-row w-[20%] justify-between mr-4">
             <TouchableOpacity
-              onPress={() => invitationAccept(invite.quizId, invite.userId)}>
+              onPress={() =>
+                invitationAccept(invite.quizId, invite.userId, invite.id)
+              }>
               <Icon name="check" size={30} color="#2CD833" />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => invitationDecline(invite.id)}>

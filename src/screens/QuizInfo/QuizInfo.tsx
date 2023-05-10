@@ -9,7 +9,7 @@ interface QuizInfoProps {
 }
 
 const QuizInfo = ({route, navigation}: QuizInfoProps) => {
-  let {data, inviteId} = route.params;
+  let {data} = route.params;
   return (
     <View className="bg-primary h-full">
       <Heading
@@ -17,7 +17,7 @@ const QuizInfo = ({route, navigation}: QuizInfoProps) => {
         iconName={false}
         isInvitationShown={false}
       />
-      <QuizBox navigation={navigation} data={data} inviteId={inviteId} />
+      <QuizBox navigation={navigation} data={data} />
     </View>
   );
 };
