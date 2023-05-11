@@ -35,8 +35,8 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [categories, setCategories] = useState<string[]>([]);
   const [chosenCategory, setChosenCategory] = useState<string>('');
   const [search, setSearch] = useState<string>('');
-  const [listType, setListType] = useState('default');
   const [visibleLoader, setVisibleLoader] = useState(true);
+  const [listing, setListing] = useState([]);
 
   useEffect(() => {
     const getQuizzes = async () => {
@@ -62,41 +62,40 @@ const UserScreen = ({navigation}: UserScreenProps) => {
     });
   };
 
-  let listing = quizInfo;
-
-  const showOnlyTenQuizzes = list => {
-    listing = list.filter((item, index) => index < 10);
-    return listing;
+  const showOnlyTenQuizzes = quizzes => {
+    return quizzes.filter((item, index) => index < 10);
   };
 
-  switch (listType) {
-    case 'search': {
-      let quizzes: any[] = [];
-      quizInfo.forEach(quiz => {
+  useEffect(() => {
+    setListing(showOnlyTenQuizzes(quizInfo));
+  }, [quizInfo]);
+
+  useEffect(() => {
+    let quizzes: any[] = [];
+    if (chosenCategory !== '' && search !== '') {
+      setListing(
+        showOnlyTenQuizzes(
+          listing.filter(quiz => quiz.category === chosenCategory),
+        ),
+      );
+      listing.forEach(quiz => {
         if (quiz.name?.toLowerCase().includes(search.toLowerCase())) {
           quizzes.push(quiz);
         }
-        listing = showOnlyTenQuizzes(quizzes);
-        if (chosenCategory) {
-          listing = showOnlyTenQuizzes(
-            listing.filter(quiz => quiz.category === chosenCategory),
-          );
-        }
       });
-      break;
-    }
-    case 'category': {
-      listing = showOnlyTenQuizzes(
+      setListing(showOnlyTenQuizzes(quizzes));
+    } else if (chosenCategory === '' && search !== '') {
+      let newList = quizInfo.filter(quiz =>
+        quiz.name?.toLowerCase().includes(search.toLowerCase()),
+      );
+      setListing(newList);
+    } else if (chosenCategory !== '' && search == '') {
+      let newList = showOnlyTenQuizzes(
         quizInfo.filter(quiz => quiz.category === chosenCategory),
       );
-      break;
-    }
-    case 'default': {
-      // If listType is default return only 10 quizzes
-      listing = showOnlyTenQuizzes(quizInfo);
-      break;
-    }
-  }
+      setListing(newList);
+    } else setListing(showOnlyTenQuizzes(quizInfo));
+  }, [chosenCategory, search]);
 
   const cardList = listing.map((quiz, id) => {
     return (
@@ -119,12 +118,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
           iconName={true}
           isInvitationShown={true}
         />
-        <Search
-          setSearch={setSearch}
-          onFocus={() => {
-            setListType('search');
-          }}
-        />
+        <Search setSearch={setSearch} />
         <CategoryButton category={'Categories'} command={OpenCategory} />
         {chosenCategory ? (
           <View className="self-center flex flex-row mt-2 items-center">
@@ -159,7 +153,6 @@ const UserScreen = ({navigation}: UserScreenProps) => {
           }}>
           <View>
             <CategoriesPopup
-              setListType={setListType}
               categories={categories}
               closePopup={OpenCategory}
               chooseCategory={setChosenCategory}

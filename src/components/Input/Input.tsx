@@ -1,8 +1,6 @@
 import React from 'react';
 import {TextInput} from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 interface InputProps {
   placeholder?: string;
   styles?: string;

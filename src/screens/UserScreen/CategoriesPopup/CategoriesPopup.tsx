@@ -7,14 +7,12 @@ interface CategoriesPopUp {
   categories: Array<string>;
   closePopup: any;
   chooseCategory: any;
-  setListType: any;
 }
 
 const CategoriesPopup = ({
   closePopup,
   chooseCategory,
   categories,
-  setListType,
 }: CategoriesPopUp) => {
   const list = categories.map((category, id) => {
     return (
@@ -23,7 +21,6 @@ const CategoriesPopup = ({
         onPress={() => {
           chooseCategory(category);
           closePopup();
-          setListType('category');
         }}>
         <Text className="font-medium text-[20px] text-primary">{category}</Text>
       </TouchableOpacity>
