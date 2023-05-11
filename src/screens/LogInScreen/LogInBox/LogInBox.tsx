@@ -4,7 +4,7 @@ import AppButton from '../../../components/Button/AppButton';
 import api from '../../../api/methods';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AnswersContext} from '../../../../App';
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 
 interface LogInBoxProps {
   navigation: any;
@@ -13,7 +13,30 @@ interface LogInBoxProps {
 const LogInBox = ({navigation}: LogInBoxProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {setIsGuest, setUserId} = useContext(AnswersContext);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const username = await AsyncStorage.getItem('username');
+      if (username !== null) {
+        setUsername(username);
+      }
+      const password = await AsyncStorage.getItem('password');
+      if (password !== null) {
+        setPassword(password);
+      }
+      if (username !== null && password !== null) setIsLoggedIn(true);
+    };
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      command();
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn]);
 
   const handleGuestLogin = () => {
     setUserId(null);

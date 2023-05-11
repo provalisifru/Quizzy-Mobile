@@ -115,7 +115,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   };
 
   const onSubmit = () => {
-    setTempAllAnswers(true);
+    setFinishedQuiz(true);
   };
 
   const endQuiz = async (quizId, userId, allAnswers) => {
