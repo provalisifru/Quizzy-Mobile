@@ -36,7 +36,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const [hintUsed, setHintUsed] = useState(false);
   const [flag, setFlag] = useState(false);
   const [flagHelp, setFlagHelp] = useState(false);
-  const [tempAllAnswers, setTempAllAnswers] = useState(false);
+  const [finishedQuiz, setFinishedQuiz] = useState(false);
 
   const [index, setIndex] = useState(0);
 
@@ -70,11 +70,11 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   }, []);
 
   useEffect(() => {
-    if (tempAllAnswers === true) {
-      setTempAllAnswers(false);
+    if (finishedQuiz === true) {
+      setFinishedQuiz(false);
       endQuiz(quizInfo?.id, userId, allAnswers);
     }
-  }, [tempAllAnswers]);
+  }, [finishedQuiz]);
 
   const saveAnswer = () => {
     switch (quizInfo?.questions[index].type) {
