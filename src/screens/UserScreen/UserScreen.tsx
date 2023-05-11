@@ -1,5 +1,12 @@
 import {useState, useEffect} from 'react';
-import {ScrollView, Modal, View, ActivityIndicator} from 'react-native';
+import {
+  ScrollView,
+  Modal,
+  View,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
 import Search from './Search/Search';
@@ -91,50 +98,51 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   });
 
   return (
-    <ScrollView className="h-full bg-primary flex flex-column">
-      <Heading
-        navigation={navigation}
-        iconName={true}
-        isInvitationShown={true}
-      />
-      <Search
-        setSearch={setSearch}
-        onFocus={() => {
-          setListType('search');
-          setChosenCategory('');
-        }}
-      />
-      <CategoryButton
-        category={chosenCategory ? chosenCategory : 'Categories'}
-        command={OpenCategory}
-      />
-      {visibleLoader ? (
-        <View className="mt-[200px]">
-          <ActivityIndicator
-            animating={visibleLoader}
-            size={100}
-            color="#FFC93C"
-          />
-        </View>
-      ) : null}
-      {cardList}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <View>
-          <CategoriesPopup
-            setListType={setListType}
-            categories={categories}
-            closePopup={OpenCategory}
-            chooseCategory={setChosenCategory}
-          />
-        </View>
-      </Modal>
-    </ScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <ScrollView className="h-full bg-primary flex flex-column">
+        <Heading
+          navigation={navigation}
+          iconName={true}
+          isInvitationShown={true}
+        />
+        <Search
+          setSearch={setSearch}
+          onFocus={() => {
+            setListType('search');
+          }}
+        />
+        <CategoryButton
+          category={chosenCategory ? chosenCategory : 'Categories'}
+          command={OpenCategory}
+        />
+        {visibleLoader ? (
+          <View className="mt-[200px]">
+            <ActivityIndicator
+              animating={visibleLoader}
+              size={100}
+              color="#FFC93C"
+            />
+          </View>
+        ) : null}
+        {cardList}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View>
+            <CategoriesPopup
+              setListType={setListType}
+              categories={categories}
+              closePopup={OpenCategory}
+              chooseCategory={setChosenCategory}
+            />
+          </View>
+        </Modal>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
 

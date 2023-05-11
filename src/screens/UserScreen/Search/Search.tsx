@@ -12,7 +12,9 @@ const Search = ({setSearch, onFocus}) => {
         setState={setSearch}
         onFocus={onFocus}
         placeholder="Search"
-        styles="text-[26px] mx-[5px] text-black"
+        styles={
+          'bg-white rounded-[60px] text-[26px] mx-[5px] text-black flex-1'
+        }
       />
     </View>
   );

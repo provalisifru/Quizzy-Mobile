@@ -1,4 +1,12 @@
-import {Text, View, TouchableOpacity, BackHandler, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  BackHandler,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Heading from '../../feature/Heading/Heading';
@@ -24,7 +32,6 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     userId,
     setChecked,
     setAnswers,
-    isGuest,
   } = useContext(AnswersContext);
 
   const [hintUsed, setHintUsed] = useState(false);
@@ -98,6 +105,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   };
 
   const onSubmit = () => {
+    console.log('ODGOVORI', allAnswers);
+    saveAnswer();
     const endQuiz = async (quizId, userId, allAnswers) => {
       await api.endQuiz(quizId, userId, allAnswers).then(response => {
         if (response?.status === 200) {
@@ -106,11 +115,10 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
             score: response.data,
           });
         } else {
-          console.log(response.error);
+          console.log(response);
         }
       });
     };
-    saveAnswer();
     setTimeout(() => {
       endQuiz(quizInfo?.id, userId, allAnswers);
       setAllAnswers([]);
@@ -119,57 +127,59 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   };
 
   return (
-    <View className="bg-primary h-full">
-      <Heading
-        navigation={navigation}
-        iconName={false}
-        isInvitationShown={false}
-      />
-      <View className="bg-secondary rounded-xl m-2">
-        <Text className="text-black font-bold self-center m-2 text-[28px]">
-          Football players quiz
-        </Text>
-        <View className="flex flex-row items-center m-auto mb-6">
-          {hintUsed ? (
-            <Icon name="lightbulb-o" size={40} color="gray" />
-          ) : (
-            <TouchableOpacity onPress={showHint}>
-              <Icon name="lightbulb-o" size={40} color="black" />
-            </TouchableOpacity>
-          )}
-          <Timer
-            quizId={quizInfo.id}
-            time={quizInfo?.time}
-            navigation={navigation}
-            onSubmit={onSubmit}
-          />
-          {quizInfo.questions[index].type !== 'text' ? (
-            flagHelp ? (
-              <Icon name="star-half-o" size={40} color="gray" />
-            ) : (
-              <TouchableOpacity onPress={useHelp}>
-                <Icon name="star-half-o" size={40} color="black" />
-              </TouchableOpacity>
-            )
-          ) : null}
-        </View>
-        <View className="bg-white w-[90%] m-auto rounded-xl">
-          {flag ? (
-            <Text className="self-center text-[20px] font-bold">
-              {quizInfo?.questions[index].hint}
-            </Text>
-          ) : null}
-
-          <QuizLogic index={index} />
-        </View>
-        <AppButton
-          onPress={onNext}
-          text={index === quizLength ? 'Finish' : 'Next'}
-          textStyle="text-white text-[25px]"
-          styles="bg-primary p-[5px] my-6 self-center w-[130px] text-[25px] rounded-[12px]"
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View className="bg-primary h-full">
+        <Heading
+          navigation={navigation}
+          iconName={false}
+          isInvitationShown={false}
         />
+        <View className="bg-secondary rounded-xl m-2">
+          <Text className="text-black font-bold self-center m-2 text-[28px]">
+            Football players quiz
+          </Text>
+          <View className="flex flex-row items-center m-auto mb-6">
+            {hintUsed ? (
+              <Icon name="lightbulb-o" size={40} color="gray" />
+            ) : (
+              <TouchableOpacity onPress={showHint}>
+                <Icon name="lightbulb-o" size={40} color="black" />
+              </TouchableOpacity>
+            )}
+            <Timer
+              quizId={quizInfo.id}
+              time={quizInfo?.time}
+              navigation={navigation}
+              onSubmit={onSubmit}
+            />
+            {quizInfo.questions[index].type !== 'text' ? (
+              flagHelp ? (
+                <Icon name="star-half-o" size={40} color="gray" />
+              ) : (
+                <TouchableOpacity onPress={useHelp}>
+                  <Icon name="star-half-o" size={40} color="black" />
+                </TouchableOpacity>
+              )
+            ) : null}
+          </View>
+          <View className="bg-white w-[90%] m-auto rounded-xl">
+            {flag ? (
+              <Text className="self-center text-[20px] font-bold">
+                {quizInfo?.questions[index].hint}
+              </Text>
+            ) : null}
+
+            <QuizLogic index={index} />
+          </View>
+          <AppButton
+            onPress={onNext}
+            text={index === quizLength ? 'Finish' : 'Next'}
+            textStyle="text-white text-[25px]"
+            styles="bg-primary p-[5px] my-6 self-center w-[130px] text-[25px] rounded-[12px]"
+          />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

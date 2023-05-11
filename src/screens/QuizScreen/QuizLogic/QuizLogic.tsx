@@ -3,11 +3,10 @@ import OneAnswer from '../Questions/OneAnswer';
 import MultipleAnswers from '../Questions/MultipleAnswers';
 import WriteAnswer from '../Questions/WriteAnswer';
 import {AnswersContext} from '../../../../App';
-import utils from '../../../utils/utils';
+import {help} from '../../../utils/utils';
 
 interface QuizLogicProps {
   index: number;
-  helpUsed: boolean;
 }
 
 const QuizLogic = ({index}: QuizLogicProps) => {
@@ -18,9 +17,9 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     setQuizAnswers(quizInfo.questions[index].answers);
   }, [index]);
 
-  if (helpUsed) {
-    quizAnswers = utils.help(quizAnswers);
-  }
+  useEffect(() => {
+    if (helpUsed) setQuizAnswers(help(quizAnswers));
+  }, [helpUsed]);
 
   switch (quizInfo?.questions[index].type) {
     case 'multi':

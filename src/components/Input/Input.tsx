@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface InputProps {
   placeholder?: string;
@@ -7,6 +9,7 @@ interface InputProps {
   value?: string;
   setState?: (str: string) => void;
   onFocus?: any;
+  ref?: any;
 }
 
 const Input = ({
@@ -15,18 +18,18 @@ const Input = ({
   value,
   setState = () => {},
   onFocus,
+  ref,
 }: InputProps) => {
   return (
-    <View>
-      <TextInput
-        onChangeText={setState}
-        onFocus={onFocus}
-        value={value}
-        placeholder={placeholder}
-        className={`text-[24px] ${styles}`}
-        placeholderTextColor={'#AAAAAA'}
-      />
-    </View>
+    <TextInput
+      ref={ref}
+      onChangeText={setState}
+      onFocus={onFocus}
+      value={value}
+      placeholder={placeholder}
+      className={`text-[24px] ${styles}`}
+      placeholderTextColor={'#AAAAAA'}
+    />
   );
 };
 

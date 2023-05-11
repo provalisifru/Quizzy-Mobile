@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Keyboard, Text, TouchableWithoutFeedback, View} from 'react-native';
 import EndMessage from './EndMessage/EndMessage';
 
 import InviteEndFunction from '../../components/InviteEndFunction/InviteEndFunction';
@@ -21,7 +21,7 @@ interface EndScreenProps {
 
 const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {quizId, score} = route.params;
-  const {scoreboard, isInvite, inviteId, setScoreboard} =
+  const {scoreboard, isInvite, inviteId, setScoreboard, isGuest} =
     useContext(AnswersContext);
   const [message, setMessage] = useState({});
 
@@ -40,11 +40,14 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
 
   useEffect(() => {
     let results = 'finishedQuiz';
+    if (isGuest) {
+      results = 'guest';
+    }
     if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
       return;
     }
-    if (scoreboard.length > 0) {
-      if (score >= scoreboard?.[0]?.score || scoreboard.length === 0) {
+    if (scoreboard.length > 0 || scoreboard.length === 0) {
+      if (score >= scoreboard?.[0]?.score) {
         results = 'highScore';
       }
     }
@@ -89,10 +92,15 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
       case 'highScore':
         setMessage({
           title: 'Congratulations!',
-          message: ` You’ve just made high score on scoreboard with ${score} right answers on this quiz!`,
+          message: `You’ve just made high score on scoreboard with ${score} right answers on this quiz!`,
           isInvite: false,
         });
         break;
+      case 'guest':
+        setMessage({
+          title: 'Congratulations',
+          message: `You’ve scored ${score} right answers on this quiz! In order to submit your score to scoreboard and invite your friends you need to Login!`,
+        });
       default:
         setMessage({
           title: 'Nice!',
@@ -103,21 +111,23 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   }, [scoreboard]);
 
   return (
-    <View className="bg-primary h-full">
-      <Heading
-        navigation={navigation}
-        iconName={false}
-        isInvitationShown={false}
-      />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View className="bg-primary h-full">
+        <Heading
+          navigation={navigation}
+          iconName={false}
+          isInvitationShown={false}
+        />
 
-      <EndMessage
-        Component={InviteEndFunction}
-        navigation={navigation}
-        msg={message}
-        quizId={quizId}
-      />
-      <Scoreboard quizId={quizId} />
-    </View>
+        <EndMessage
+          Component={InviteEndFunction}
+          navigation={navigation}
+          msg={message}
+          quizId={quizId}
+        />
+        <Scoreboard quizId={quizId} />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

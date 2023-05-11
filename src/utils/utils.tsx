@@ -5,31 +5,22 @@ interface quizAnswersProps {
   text: string;
 }
 
-const help = (quizAnswers: quizAnswersProps) => {
-  const findCorrectAnswers = () => {
-    let correctAnswers = quizAnswers.filter(
-      (answer: {correct: boolean}) => answer.correct === true,
-    );
-    return correctAnswers;
-  };
-  const findIncorrectAnswers = () => {
-    let help = quizAnswers.filter(
-      (answer: {correct: boolean}) => answer.correct !== true,
-    );
+export const help = (quizAnswers: quizAnswersProps) => {
+  let correctAnswers = quizAnswers.filter(
+    (answer: {correct: boolean}) => answer.correct === true,
+  );
+  let incorrectAnswers = quizAnswers.filter(
+    (answer: {correct: boolean}) => answer.correct !== true,
+  );
 
-    return help;
-  };
+  let halfLength = Math.floor(incorrectAnswers.length / 2);
+  let randomIncorrectAnswers = incorrectAnswers.slice(
+    0,
+    Math.floor(halfLength),
+  );
 
-  const returnOneIncorrectAnswer = answers => {
-    let randomAnswer = answers.find((element: any, i: number) => i === 1);
-    return randomAnswer;
-  };
-
-  quizAnswers = [
-    ...findCorrectAnswers(),
-    returnOneIncorrectAnswer(findIncorrectAnswers()),
-  ];
-  return quizAnswers;
+  let answers = [...correctAnswers, ...randomIncorrectAnswers];
+  return answers;
 };
 
 const formatTime = seconds => {

@@ -16,7 +16,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const {setIsGuest, setUserId} = useContext(AnswersContext);
 
   const handleGuestLogin = () => {
-    setUserId('99999999-9999-9999-9999-999999999999');
+    setUserId(null);
     setIsGuest(true);
     navigation.navigate('Home');
   };
@@ -44,20 +44,18 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
         <Text className="text-primary text-center text-[26px] my-5">
           Number 1. online quiz in the world
         </Text>
-        <View className="m-2 px-[20px] bg-white rounded-[60px] my-5">
-          <Input
-            value={username}
-            placeholder="Enter username..."
-            setState={setUsername}
-          />
-        </View>
-        <View className="m-2 px-[20px] bg-white rounded-[60px]">
-          <Input
-            value={password}
-            placeholder="Enter password..."
-            setState={setPassword}
-          />
-        </View>
+        <Input
+          value={username}
+          placeholder="Enter username..."
+          setState={setUsername}
+          styles={'m-2 px-[20px] bg-white rounded-[60px]'}
+        />
+        <Input
+          value={password}
+          placeholder="Enter password..."
+          setState={setPassword}
+          styles={'m-2 px-[20px] bg-white rounded-[60px]'}
+        />
         <AppButton
           onPress={command}
           text="Sign In"

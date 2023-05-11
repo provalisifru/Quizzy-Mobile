@@ -29,13 +29,11 @@ const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
 
   return (
     <View>
-      <View className=" px-[20px] bg-white rounded-[50px] my-5">
-        <Input
-          styles="text-[16px]"
-          placeholder="Enter friend's username..."
-          setState={setFriendUsername}
-        />
-      </View>
+      <Input
+        styles="text-[16px]  px-[20px] bg-white rounded-[50px] my-5"
+        placeholder="Enter friend's username..."
+        setState={setFriendUsername}
+      />
       <View className="flex-row items-center mb-4">
         <AppButton
           onPress={() =>

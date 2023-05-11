@@ -3,9 +3,14 @@ import {RadioButton} from 'react-native-paper';
 import {useContext, useState} from 'react';
 import {AnswersContext} from '../../../../App';
 
+//  const obj = {
+//   key: 'type of question',
+//   array: ['array of answers']
+//  }
+
 interface OneAnswerProps {
-  quizQuestion: string;
-  quizAnswers: string;
+  quizQuestion: any;
+  quizAnswers: any;
   index: number;
 }
 
