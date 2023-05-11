@@ -25,7 +25,6 @@ const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
           setFriendUsername('');
         } else {
           Toast.show("User with that username doesn't exist!", 10);
-          setFriendUsername('');
         }
       });
     }

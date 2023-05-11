@@ -77,7 +77,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   }, [finishedQuiz]);
 
   const saveAnswer = () => {
-    switch (quizInfo?.questions[index].type) {
+    switch (quizInfo?.questions[index].type.toLowerCase()) {
       case 'single':
         console.log(checked);
         setAllAnswers([...allAnswers, checked]);
@@ -106,15 +106,16 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const onNext = () => {
     setFlag(false);
     setHelpUsed(false);
-    saveAnswer();
     if (index === quizLength) {
       onSubmit();
     } else {
+      saveAnswer();
       setIndex(index + 1);
     }
   };
 
   const onSubmit = () => {
+    saveAnswer();
     setFinishedQuiz(true);
   };
 
@@ -158,13 +159,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
                 <Icon name="lightbulb-o" size={40} color="black" />
               </TouchableOpacity>
             )}
-            <Timer
-              quizId={quizInfo.id}
-              time={quizInfo?.time}
-              navigation={navigation}
-              onSubmit={onSubmit}
-            />
-            {quizInfo.questions[index].type !== 'text' ? (
+            <Timer time={quizInfo?.time} onSubmit={onSubmit} />
+            {quizInfo.questions[index].type.toLowerCase() !== 'text' ? (
               flagHelp ? (
                 <Icon name="star-half-o" size={40} color="gray" />
               ) : (

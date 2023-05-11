@@ -18,37 +18,30 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
 
   const handleLogout = async () => {
     if (!isGuest) {
-      Alert.alert(
-        'Warning',
-        'Are you sure you want to log out?',
-        [
-          {
-            text: 'Yes',
-            onPress: async () => {
-              await AsyncStorage.removeItem('username');
-              await AsyncStorage.removeItem('password');
-              if (isGuest === true) {
-                setIsGuest(false);
-              }
-              navigation.navigate('LogIn');
-            },
-            style: 'default',
-          },
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-        ],
+      Alert.alert('Warning', 'Are you sure you want to log out?', [
         {
-          cancelable: true,
-          onDismiss: () =>
-            Alert.alert(
-              'This alert was dismissed by tapping outside of the alert dialog.',
-            ),
+          text: 'Yes',
+          onPress: async () => {
+            await AsyncStorage.removeItem('username');
+            await AsyncStorage.removeItem('password');
+            await AsyncStorage.removeItem('timer');
+            if (isGuest === true) {
+              setIsGuest(false);
+            }
+            navigation.navigate('LogIn');
+          },
+          style: 'default',
         },
-      );
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ]);
     } else {
       navigation.navigate('LogIn');
+      async () => {
+        await AsyncStorage.removeItem('timer');
+      };
       setIsGuest(false);
     }
   };

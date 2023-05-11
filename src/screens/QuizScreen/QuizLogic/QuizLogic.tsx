@@ -21,7 +21,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     if (helpUsed) setQuizAnswers(help(quizAnswers));
   }, [helpUsed]);
 
-  switch (quizInfo?.questions[index].type) {
+  switch (quizInfo?.questions[index].type.toLowerCase()) {
     case 'multi':
       return (
         <MultipleAnswers

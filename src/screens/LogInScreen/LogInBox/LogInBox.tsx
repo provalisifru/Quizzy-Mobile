@@ -50,6 +50,8 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
         AsyncStorage.setItem('username', username);
         AsyncStorage.setItem('password', password);
         setUserId(response.data.id);
+        setUsername('');
+        setPassword('');
         navigation.navigate('Home');
       } else {
         Alert.alert(

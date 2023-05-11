@@ -5,13 +5,15 @@ import {AnswersContext} from '../../../../App';
 const Scoreboard = () => {
   const {scoreboard} = useContext(AnswersContext);
 
-  let scores = scoreboard.map((score: any, i: number) => {
+  let topScoreboard = scoreboard.filter((item, id) => id < 10);
+
+  let scores = topScoreboard.map((score: any, i: number) => {
     return (
       <View key={i} className="flex flex-row justify-between mx-2">
-        <Text className="text-primary text-[15px] font-bold">
+        <Text className="text-primary text-[20px] font-bold">
           {i + 1}. {score.username}
         </Text>
-        <Text className="text-primary text-[15px] font-bold">
+        <Text className="text-primary text-[20px] font-bold">
           {score.score}
         </Text>
       </View>
