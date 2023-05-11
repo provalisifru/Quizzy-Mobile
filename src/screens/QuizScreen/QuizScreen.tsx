@@ -71,11 +71,11 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
 
   const saveAnswer = () => {
     switch (quizInfo?.questions[index].type) {
-      case 'single':
+      case 'Single':
         setAllAnswers([...allAnswers, checked]);
         setChecked('');
         break;
-      case 'text':
+      case 'Text':
         setAllAnswers([
           ...allAnswers,
           {
@@ -85,7 +85,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           },
         ]);
         break;
-      case 'multi':
+      case 'Multi':
         setAllAnswers([...allAnswers, ...answers]);
         setAnswers('');
       default:
@@ -105,7 +105,6 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   };
 
   const onSubmit = () => {
-    console.log('ODGOVORI', allAnswers);
     saveAnswer();
     const endQuiz = async (quizId, userId, allAnswers) => {
       await api.endQuiz(quizId, userId, allAnswers).then(response => {

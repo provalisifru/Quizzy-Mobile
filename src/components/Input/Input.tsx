@@ -9,7 +9,6 @@ interface InputProps {
   value?: string;
   setState?: (str: string) => void;
   onFocus?: any;
-  ref?: any;
 }
 
 const Input = ({
@@ -18,11 +17,9 @@ const Input = ({
   value,
   setState = () => {},
   onFocus,
-  ref,
 }: InputProps) => {
   return (
     <TextInput
-      ref={ref}
       onChangeText={setState}
       onFocus={onFocus}
       value={value}

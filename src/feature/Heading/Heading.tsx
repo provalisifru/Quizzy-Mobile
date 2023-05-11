@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Title from '../../components/Title/Title';
-import {TouchableOpacity, View} from 'react-native';
+import {Alert, TouchableOpacity, View} from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,13 +17,40 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
   const {isGuest, setIsGuest} = useContext(AnswersContext);
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem('username');
-    await AsyncStorage.removeItem('password');
-    if (isGuest === true) {
+    if (!isGuest) {
+      Alert.alert(
+        'Warning',
+        'Are you sure you want to log out?',
+        [
+          {
+            text: 'Yes',
+            onPress: async () => {
+              await AsyncStorage.removeItem('username');
+              await AsyncStorage.removeItem('password');
+              if (isGuest === true) {
+                setIsGuest(false);
+              }
+              navigation.navigate('LogIn');
+            },
+            style: 'default',
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ],
+        {
+          cancelable: true,
+          onDismiss: () =>
+            Alert.alert(
+              'This alert was dismissed by tapping outside of the alert dialog.',
+            ),
+        },
+      );
+    } else {
+      navigation.navigate('LogIn');
       setIsGuest(false);
     }
-
-    navigation.navigate('LogIn');
   };
   return (
     <View className="flex flex-row items-center justify-around my-[30px] bg-primary">

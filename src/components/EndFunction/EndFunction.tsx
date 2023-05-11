@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Keyboard, Text, TouchableOpacity, View} from 'react-native';
 import Input from '../Input/Input';
 import AppButton from '../Button/AppButton';
 import api from '../../api/methods';
 import {AnswersContext} from '../../../App';
-import {AdornmentSide} from 'react-native-paper/lib/typescript/src/components/TextInput/Adornment/enums';
+import Toast from 'react-native-simple-toast';
 
 interface EndFunctionProps {
   navigation: any;
@@ -12,19 +12,23 @@ interface EndFunctionProps {
 }
 
 const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
-  const [message, setMessage] = useState('');
   const [friendUsername, setFriendUsername] = useState('');
   const {userId} = useContext(AnswersContext);
 
   const sendInvite = async requestBody => {
-    await api.sendInvitation(requestBody).then(response => {
-      if (response?.status === 200) {
-        console.log(response.data);
-        setMessage(response.data);
-      } else {
-        console.log(response.error);
-      }
-    });
+    if (requestBody.username === '') {
+      Toast.show("You need to write in friend's username!", 5);
+    } else {
+      await api.sendInvitation(requestBody).then(response => {
+        if (response?.status === 200) {
+          Toast.show(`${response.data}!`, 10);
+          setFriendUsername('');
+        } else {
+          Toast.show("User with that username doesn't exist!", 10);
+          setFriendUsername('');
+        }
+      });
+    }
   };
 
   return (
@@ -33,16 +37,18 @@ const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
         styles="text-[16px]  px-[20px] bg-white rounded-[50px] my-5"
         placeholder="Enter friend's username..."
         setState={setFriendUsername}
+        value={friendUsername}
       />
       <View className="flex-row items-center mb-4">
         <AppButton
-          onPress={() =>
+          onPress={() => {
+            Keyboard.dismiss();
             sendInvite({
               userId: userId,
               quizId: quizId,
               username: friendUsername,
-            })
-          }
+            });
+          }}
           text="Invite"
           textStyle="text-white text-[18px]"
           styles="bg-primary w-[100px] h-[50px] rounded-[60px]"

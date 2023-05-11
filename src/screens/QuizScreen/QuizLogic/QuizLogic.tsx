@@ -22,7 +22,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
   }, [helpUsed]);
 
   switch (quizInfo?.questions[index].type) {
-    case 'multi':
+    case 'Multi':
       return (
         <MultipleAnswers
           index={index}
@@ -30,7 +30,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizAnswers}
         />
       );
-    case 'single':
+    case 'Single':
       return (
         <OneAnswer
           index={index}
@@ -38,7 +38,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizAnswers}
         />
       );
-    case 'text':
+    case 'Text':
       return (
         <WriteAnswer
           index={index}

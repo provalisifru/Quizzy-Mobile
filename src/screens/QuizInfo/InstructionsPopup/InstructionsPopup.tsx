@@ -17,7 +17,7 @@ const InstructionsPopup = ({time, command}: InstructionsPopUpProps) => {
           In this quiz you will have {time} minutes to finish it, you have two
           types of help:
         </Text>
-        <View className="absolute right-[-10px] top-[-15px]">
+        <View className="absolute right-[-18px] top-[-22px]">
           <Icon onPress={command} name="close" size={30} color="black" />
         </View>
       </View>

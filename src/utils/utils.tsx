@@ -14,12 +14,19 @@ export const help = (quizAnswers: quizAnswersProps) => {
   );
 
   let halfLength = Math.floor(incorrectAnswers.length / 2);
+
   let randomIncorrectAnswers = incorrectAnswers.slice(
     0,
     Math.floor(halfLength),
   );
+  let randomNum = Math.floor(Math.random() * 2);
+  let answers;
+  if (randomNum === 1) {
+    answers = [...correctAnswers, ...randomIncorrectAnswers];
+  } else {
+    answers = [...randomIncorrectAnswers, ...correctAnswers];
+  }
 
-  let answers = [...correctAnswers, ...randomIncorrectAnswers];
   return answers;
 };
 

@@ -11,6 +11,7 @@ interface ButtonProps {
 const AppButton = ({styles, onPress, text = '', textStyle}: ButtonProps) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.5}
       onPress={onPress}
       className={`m-1 p-2 rounded-xl ${styles}`}>
       <Text className={`text-center m-auto ${textStyle}`}>{text}</Text>

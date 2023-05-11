@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, ScrollView, View, TouchableOpacity} from 'react-native';
+import {Text, ScrollView, View, TouchableOpacity, Alert} from 'react-native';
 import api from '../../../api/methods';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -40,7 +40,25 @@ const InviteBox = ({navigation}) => {
   };
 
   const invitationDecline = (invId: string) => {
-    api.deleteInvitation(invId);
+    Alert.alert(
+      'WARNING',
+      "You are about to delete this invitation and you won't be able to play this quiz against friend who invited you!",
+      [
+        {
+          text: 'Delete invitation',
+          onPress: () => {
+            Alert.alert('Invitation deleted');
+            api.deleteInvitation(invId);
+          },
+        },
+        {
+          text: 'Cancel',
+        },
+      ],
+      {
+        cancelable: false,
+      },
+    );
   };
 
   const invitationList = invites.map((invite, id) => {

@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
+  Text,
 } from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
@@ -14,6 +15,7 @@ import CategoryButton from './CategoryButton/CategoryButton';
 import Cards from '../../feature/Cards/Cards';
 import CategoriesPopup from './CategoriesPopup/CategoriesPopup';
 import api from '../../api/methods';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface UserScreenProps {
   navigation: any;
@@ -62,6 +64,11 @@ const UserScreen = ({navigation}: UserScreenProps) => {
 
   let listing = quizInfo;
 
+  const showOnlyTenQuizzes = list => {
+    listing = list.filter((item, index) => index < 10);
+    return listing;
+  };
+
   switch (listType) {
     case 'search': {
       let quizzes: any[] = [];
@@ -69,17 +76,24 @@ const UserScreen = ({navigation}: UserScreenProps) => {
         if (quiz.name?.toLowerCase().includes(search.toLowerCase())) {
           quizzes.push(quiz);
         }
-        listing = quizzes;
+        listing = showOnlyTenQuizzes(quizzes);
+        if (chosenCategory) {
+          listing = showOnlyTenQuizzes(
+            listing.filter(quiz => quiz.category === chosenCategory),
+          );
+        }
       });
       break;
     }
     case 'category': {
-      listing = quizInfo.filter(quiz => quiz.category === chosenCategory);
+      listing = showOnlyTenQuizzes(
+        quizInfo.filter(quiz => quiz.category === chosenCategory),
+      );
       break;
     }
     case 'default': {
       // If listType is default return only 10 quizzes
-      listing = quizInfo.filter((item, index) => index < 10);
+      listing = showOnlyTenQuizzes(quizInfo);
       break;
     }
   }
@@ -111,10 +125,21 @@ const UserScreen = ({navigation}: UserScreenProps) => {
             setListType('search');
           }}
         />
-        <CategoryButton
-          category={chosenCategory ? chosenCategory : 'Categories'}
-          command={OpenCategory}
-        />
+        <CategoryButton category={'Categories'} command={OpenCategory} />
+        {chosenCategory ? (
+          <View className="self-center flex flex-row mt-2 items-center">
+            <Text className="text-secondary mr-2 text-bold text-[18px]">
+              {chosenCategory}
+            </Text>
+            <Icon
+              onPress={() => setChosenCategory('')}
+              name="close"
+              size={30}
+              color="#FFC93C"
+            />
+          </View>
+        ) : null}
+
         {visibleLoader ? (
           <View className="mt-[200px]">
             <ActivityIndicator
