@@ -10,7 +10,7 @@ interface QuizLogicProps {
 }
 
 const QuizLogic = ({index}: QuizLogicProps) => {
-  const {quizInfo, helpUsed, setHelpUsed} = useContext(AnswersContext);
+  const {quizInfo, helpUsed} = useContext(AnswersContext);
   const [quizAnswers, setQuizAnswers] = useState(quizInfo.questions[0].answers);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
   }, [helpUsed]);
 
   switch (quizInfo?.questions[index].type) {
-    case 'Multi':
+    case 'multi':
       return (
         <MultipleAnswers
           index={index}
@@ -30,7 +30,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizAnswers}
         />
       );
-    case 'Single':
+    case 'single':
       return (
         <OneAnswer
           index={index}
@@ -38,7 +38,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
           quizAnswers={quizAnswers}
         />
       );
-    case 'Text':
+    case 'text':
       return (
         <WriteAnswer
           index={index}

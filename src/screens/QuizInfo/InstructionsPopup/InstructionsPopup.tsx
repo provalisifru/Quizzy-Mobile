@@ -26,7 +26,7 @@ const InstructionsPopup = ({time, command}: InstructionsPopUpProps) => {
         <View className="mb-3 flex flex-row  justify-around items-center ">
           <Icon name="star-half-o" size={30} color="black" />
           <Text className="font-bold text-black text-[16px] w-[80%]">
-            Help 1 - hides two incorrect answers
+            Help 1 - hides half of incorrect answers
           </Text>
         </View>
 

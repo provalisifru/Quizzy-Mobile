@@ -3,7 +3,6 @@ import {
   View,
   TouchableOpacity,
   BackHandler,
-  Alert,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
@@ -37,6 +36,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const [hintUsed, setHintUsed] = useState(false);
   const [flag, setFlag] = useState(false);
   const [flagHelp, setFlagHelp] = useState(false);
+  const [tempAllAnswers, setTempAllAnswers] = useState(false);
 
   const [index, setIndex] = useState(0);
 
@@ -69,13 +69,22 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    if (tempAllAnswers === true) {
+      setTempAllAnswers(false);
+      endQuiz(quizInfo?.id, userId, allAnswers);
+    }
+  }, [tempAllAnswers]);
+
   const saveAnswer = () => {
     switch (quizInfo?.questions[index].type) {
-      case 'Single':
+      case 'single':
+        console.log(checked);
         setAllAnswers([...allAnswers, checked]);
         setChecked('');
         break;
-      case 'Text':
+      case 'text':
+        console.log(writtenAnswer);
         setAllAnswers([
           ...allAnswers,
           {
@@ -85,7 +94,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           },
         ]);
         break;
-      case 'Multi':
+      case 'multi':
+        console.log(answers);
         setAllAnswers([...allAnswers, ...answers]);
         setAnswers('');
       default:
@@ -96,18 +106,22 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   const onNext = () => {
     setFlag(false);
     setHelpUsed(false);
+    saveAnswer();
     if (index === quizLength) {
       onSubmit();
     } else {
-      saveAnswer();
       setIndex(index + 1);
     }
   };
 
   const onSubmit = () => {
-    saveAnswer();
-    const endQuiz = async (quizId, userId, allAnswers) => {
+    setTempAllAnswers(true);
+  };
+
+  const endQuiz = async (quizId, userId, allAnswers) => {
+    try {
       await api.endQuiz(quizId, userId, allAnswers).then(response => {
+        console.log('this is all answers', allAnswers);
         if (response?.status === 200) {
           navigation.navigate('EndScreen', {
             quizId: quizInfo.id,
@@ -117,12 +131,11 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           console.log(response);
         }
       });
-    };
-    setTimeout(() => {
-      endQuiz(quizInfo?.id, userId, allAnswers);
+    } catch (e) {
+      console.log('This is error', e);
+    } finally {
       setAllAnswers([]);
-    }, 500);
-    console.log(allAnswers);
+    }
   };
 
   return (
