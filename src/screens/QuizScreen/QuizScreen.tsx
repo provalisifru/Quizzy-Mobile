@@ -5,6 +5,7 @@ import {
   BackHandler,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -76,28 +77,45 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     }
   }, [finishedQuiz]);
 
+  const checkIfAnswered = answer => {
+    if (answer.length !== 0) {
+      return true;
+    } else {
+      Alert.alert('WARNING', "You didn't answer question!", [
+        {
+          text: 'Ok',
+        },
+      ]);
+      return false;
+    }
+  };
+
   const saveAnswer = () => {
     switch (quizInfo?.questions[index].type.toLowerCase()) {
       case 'single':
-        console.log(checked);
-        setAllAnswers([...allAnswers, checked]);
-        setChecked('');
-        break;
+        if (checkIfAnswered(checked)) {
+          setAllAnswers([...allAnswers, checked]);
+          setChecked('');
+          return true;
+        } else break;
       case 'text':
-        console.log(writtenAnswer);
-        setAllAnswers([
-          ...allAnswers,
-          {
-            questionId: quizInfo?.questions[index].id,
-            text: writtenAnswer,
-            correct: false,
-          },
-        ]);
-        break;
+        if (checkIfAnswered(writtenAnswer)) {
+          setAllAnswers([
+            ...allAnswers,
+            {
+              questionId: quizInfo?.questions[index].id,
+              text: writtenAnswer,
+              correct: false,
+            },
+          ]);
+          return true;
+        } else break;
       case 'multi':
-        console.log(answers);
-        setAllAnswers([...allAnswers, ...answers]);
-        setAnswers('');
+        if (checkIfAnswered(answers)) {
+          setAllAnswers([...allAnswers, ...answers]);
+          setAnswers('');
+          return true;
+        } else break;
       default:
         break;
     }
@@ -107,10 +125,14 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     setFlag(false);
     setHelpUsed(false);
     if (index === quizLength) {
+      if (saveAnswer()) {
+        onSubmit();
+      } else return;
       onSubmit();
     } else {
-      saveAnswer();
-      setIndex(index + 1);
+      if (saveAnswer()) {
+        setIndex(index + 1);
+      } else return;
     }
   };
 

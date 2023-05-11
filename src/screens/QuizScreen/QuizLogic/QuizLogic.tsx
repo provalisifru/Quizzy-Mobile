@@ -10,7 +10,8 @@ interface QuizLogicProps {
 }
 
 const QuizLogic = ({index}: QuizLogicProps) => {
-  const {quizInfo, helpUsed} = useContext(AnswersContext);
+  const {quizInfo, helpUsed, setChecked, setAnswers} =
+    useContext(AnswersContext);
   const [quizAnswers, setQuizAnswers] = useState(quizInfo.questions[0].answers);
 
   useEffect(() => {
@@ -18,7 +19,17 @@ const QuizLogic = ({index}: QuizLogicProps) => {
   }, [index]);
 
   useEffect(() => {
-    if (helpUsed) setQuizAnswers(help(quizAnswers));
+    if (helpUsed) {
+      setQuizAnswers(help(quizAnswers));
+      switch (quizInfo?.questions[index].type.toLowerCase()) {
+        case 'multi':
+          setAnswers('');
+        case 'single':
+          setChecked('');
+        default:
+          break;
+      }
+    }
   }, [helpUsed]);
 
   switch (quizInfo?.questions[index].type.toLowerCase()) {
