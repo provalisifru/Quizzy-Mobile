@@ -33,7 +33,7 @@ const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
           <RadioButton
             onPress={() => {
               setChecked(answer);
-              setCheck(answer.text);
+              setCheck(answer.id);
             }}
             value={answer.id}
             status={check === `${answer.id}` ? 'checked' : 'unchecked'}
