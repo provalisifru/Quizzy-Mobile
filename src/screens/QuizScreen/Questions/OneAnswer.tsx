@@ -3,11 +3,6 @@ import {RadioButton} from 'react-native-paper';
 import {useContext, useState} from 'react';
 import {AnswersContext} from '../../../../App';
 
-//  const obj = {
-//   key: 'type of question',
-//   array: ['array of answers']
-//  }
-
 interface OneAnswerProps {
   quizQuestion: any;
   quizAnswers: any;
@@ -19,30 +14,35 @@ const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
 
   const [check, setCheck] = useState('');
 
-  let answers = {quizAnswers}.quizAnswers;
+  const answers = {quizAnswers}.quizAnswers;
 
-  let answer = answers.map((answer: object, id: number) => {
-    return (
-      <View key={id}>
-        <TouchableOpacity
-          className="flex flex-row items-center m-2"
-          onPress={() => {
-            setChecked(answer);
-            setCheck(answer.id);
-          }}>
-          <RadioButton
+  const answer = answers.map(
+    (
+      answer: {id: string; questionId: string; text: string; correct: boolean},
+      id: number,
+    ) => {
+      return (
+        <View key={id}>
+          <TouchableOpacity
+            className="flex flex-row items-center m-2"
             onPress={() => {
               setChecked(answer);
               setCheck(answer.id);
-            }}
-            value={answer.id}
-            status={check === `${answer.id}` ? 'checked' : 'unchecked'}
-          />
-          <Text className="text-black text-[18px]">{answer.text}</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  });
+            }}>
+            <RadioButton
+              onPress={() => {
+                setChecked(answer);
+                setCheck(answer.id);
+              }}
+              value={answer.id}
+              status={check === `${answer.id}` ? 'checked' : 'unchecked'}
+            />
+            <Text className="text-black text-[18px]">{answer.text}</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    },
+  );
 
   return (
     <View className="m-5">

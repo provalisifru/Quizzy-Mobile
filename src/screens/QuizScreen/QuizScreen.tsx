@@ -11,10 +11,12 @@ import AppButton from '../../components/Button/AppButton';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Heading from '../../feature/Heading/Heading';
 import {AnswersContext} from '../../../App';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import QuizLogic from './QuizLogic/QuizLogic';
 import Timer from './Timer';
 import api from '../../api/methods';
+
+import BackgroundTimer from 'react-native-background-timer';
 
 interface QuizScreenProps {
   navigation: any;
@@ -33,6 +35,8 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     setChecked,
     setAnswers,
   } = useContext(AnswersContext);
+
+  const intervalRef = useRef<any>();
 
   const [hintUsed, setHintUsed] = useState(false);
   const [flag, setFlag] = useState(false);
@@ -144,6 +148,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
 
   const onSubmit = () => {
     saveAnswer();
+    BackgroundTimer.clearInterval(intervalRef.current);
     setFinishedQuiz(true);
   };
 
@@ -186,7 +191,11 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
                 <Icon name="lightbulb-o" size={40} color="black" />
               </TouchableOpacity>
             )}
-            <Timer time={quizInfo?.time} onSubmit={onSubmit} />
+            <Timer
+              ref={intervalRef}
+              time={quizInfo && quizInfo.time ? quizInfo?.time : 0}
+              onSubmit={onSubmit}
+            />
             {quizInfo &&
             quizInfo.questions &&
             quizInfo.questions[index].type.toLowerCase() !== 'text' ? (

@@ -1,19 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, forwardRef} from 'react';
 import {Text, View} from 'react-native';
 import BackgroundTimer from 'react-native-background-timer';
 import utils from '../../utils/utils';
 
-const Timer = ({time, onSubmit}) => {
+interface TimerProps {
+  time: number;
+  onSubmit: Function;
+}
+
+const Timer = forwardRef(({time, onSubmit}: TimerProps, ref: any) => {
   const [seconds, setSeconds] = useState(time);
 
   useEffect(() => {
-    const interval = BackgroundTimer.setInterval(() => {
-      setSeconds(seconds => seconds - 1);
+    ref.current = BackgroundTimer.setInterval(() => {
+      setSeconds((seconds: number) => seconds - 1);
     }, 1000);
-
-    return () => {
-      BackgroundTimer.clearInterval(interval);
-    };
   }, []);
 
   useEffect(() => {
@@ -29,6 +30,6 @@ const Timer = ({time, onSubmit}) => {
       </Text>
     </View>
   );
-};
+});
 
 export default Timer;
