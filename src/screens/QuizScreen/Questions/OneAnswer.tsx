@@ -28,15 +28,15 @@ const OneAnswer = ({index, quizQuestion, quizAnswers}: OneAnswerProps) => {
           className="flex flex-row items-center m-2"
           onPress={() => {
             setChecked(answer);
-            setCheck(answer.text);
+            setCheck(answer.id);
           }}>
           <RadioButton
             onPress={() => {
               setChecked(answer);
               setCheck(answer.text);
             }}
-            value={answer.text}
-            status={check === `${answer.text}` ? 'checked' : 'unchecked'}
+            value={answer.id}
+            status={check === `${answer.id}` ? 'checked' : 'unchecked'}
           />
           <Text className="text-black text-[18px]">{answer.text}</Text>
         </TouchableOpacity>
