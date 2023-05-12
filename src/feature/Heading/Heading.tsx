@@ -47,7 +47,7 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
   };
   return (
     <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
-      <Title styles="text-secondary text-[40px] text-[40px]" />
+      <Title styles="h-[70px] w-[70px]" />
       <View className="ml-[-30px]">
         {!isGuest && isInvitationShown ? (
           iconName ? (

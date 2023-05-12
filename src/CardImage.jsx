@@ -7,7 +7,7 @@ const CardImage = ({category, classNameText}) => {
 
   var imgSource = '';
 
-  switch (category) {
+  switch (category.toLowerCase()) {
     case 'sport':
       imgSource = FootballPhoto;
       break;

@@ -1,5 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
+
+const SadSmiley = require('../../assets/QuizzyLogoTrans.png');
 
 interface TitleProps {
   styles?: string;
@@ -8,7 +10,9 @@ interface TitleProps {
 const Title = ({styles}: TitleProps) => {
   return (
     <View>
-      <Text className={`${styles}`}>QUIZZY</Text>
+      <View className={`${styles} bg-secondary rounded-xl`}>
+        <Image className="w-full h-full" source={SadSmiley}></Image>
+      </View>
     </View>
   );
 };

@@ -1,7 +1,12 @@
 export interface QuizInfoInterface {
   id?: string;
   name?: string;
-  questions?: [];
+  questions?: Array<{
+    id: number;
+    text: string;
+    type: string;
+    hint: string;
+  }>;
   time?: number;
   category?: string;
   active?: boolean;

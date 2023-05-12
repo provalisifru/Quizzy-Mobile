@@ -22,7 +22,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
     if (helpUsed) {
       setQuizAnswers(help(quizAnswers));
       switch (quizInfo?.questions[index].type.toLowerCase()) {
-        case 'multi':
+        case 'multiple':
           setAnswers('');
         case 'single':
           setChecked('');
@@ -33,7 +33,7 @@ const QuizLogic = ({index}: QuizLogicProps) => {
   }, [helpUsed]);
 
   switch (quizInfo?.questions[index].type.toLowerCase()) {
-    case 'multi':
+    case 'multiple':
       return (
         <MultipleAnswers
           index={index}

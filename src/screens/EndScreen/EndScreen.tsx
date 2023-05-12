@@ -24,6 +24,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {scoreboard, isInvite, inviteId, setScoreboard, isGuest} =
     useContext(AnswersContext);
   const [message, setMessage] = useState({});
+  const [result, setResult] = useState('finishedQuiz');
 
   const getScoreboard = (quizId: string) => {
     api.getScoreboard(quizId).then(response => {
@@ -39,29 +40,28 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   }, []);
 
   useEffect(() => {
-    let results = 'finishedQuiz';
     if (isGuest) {
-      results = 'guest';
+      setResult('guest');
     }
     if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
       return;
     }
     if (scoreboard.length > 0 || scoreboard.length === 0) {
       if (score >= scoreboard?.[0]?.score) {
-        results = 'highScore';
+        setResult('highScore');
       }
     }
 
     if (isInvite) {
       if (scoreboard.length > 0) {
         const inviteScore = scoreboard.find(score => score.userId === inviteId);
-        if (score > inviteScore.score) results = 'win';
-        else if (score < inviteScore.score) results = 'lost';
-        else results = 'tie';
+        if (score > inviteScore.score) setResult('win');
+        else if (score < inviteScore.score) setResult('lost');
+        else setResult('tie');
       }
     }
 
-    switch (results as string) {
+    switch (result as string) {
       case 'win':
         setMessage({
           title: 'You won!',

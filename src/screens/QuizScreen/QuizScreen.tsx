@@ -41,7 +41,9 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
 
   const [index, setIndex] = useState(0);
 
-  let quizLength = quizInfo?.questions.length - 1;
+  const quizLength = quizInfo?.questions?.length
+    ? quizInfo.questions.length - 1
+    : 0;
 
   const showHint = () => {
     if (!flag) {
@@ -77,7 +79,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     }
   }, [finishedQuiz]);
 
-  const checkIfAnswered = answer => {
+  const checkIfAnswered = (answer: any[]) => {
     if (answer.length !== 0) {
       return true;
     } else {
@@ -91,33 +93,37 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
   };
 
   const saveAnswer = () => {
-    switch (quizInfo?.questions[index].type.toLowerCase()) {
-      case 'single':
-        if (checkIfAnswered(checked)) {
-          setAllAnswers([...allAnswers, checked]);
-          setChecked('');
-          return true;
-        } else break;
-      case 'text':
-        if (checkIfAnswered(writtenAnswer)) {
-          setAllAnswers([
-            ...allAnswers,
-            {
-              questionId: quizInfo?.questions[index].id,
-              text: writtenAnswer,
-              correct: false,
-            },
-          ]);
-          return true;
-        } else break;
-      case 'multi':
-        if (checkIfAnswered(answers)) {
-          setAllAnswers([...allAnswers, ...answers]);
-          setAnswers('');
-          return true;
-        } else break;
-      default:
-        break;
+    if (quizInfo && quizInfo.questions && quizInfo.questions[index]) {
+      const questionType = quizInfo.questions[index].type;
+      switch (questionType.toLowerCase()) {
+        case 'single':
+          if (checkIfAnswered(checked)) {
+            setAllAnswers([...allAnswers, checked]);
+            setChecked('');
+            return true;
+          } else break;
+        case 'text':
+          if (checkIfAnswered(writtenAnswer)) {
+            setAllAnswers([
+              ...allAnswers,
+              {
+                questionId: quizInfo?.questions[index].id,
+                text: writtenAnswer,
+                correct: false,
+              },
+            ]);
+
+            return true;
+          } else break;
+        case 'multiple':
+          if (checkIfAnswered(answers)) {
+            setAllAnswers([...allAnswers, ...answers]);
+            setAnswers('');
+            return true;
+          } else break;
+        default:
+          break;
+      }
     }
   };
 
@@ -141,11 +147,10 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
     setFinishedQuiz(true);
   };
 
-  const endQuiz = async (quizId, userId, allAnswers) => {
+  const endQuiz = async (quizId: string, userId: string, allAnswers: any) => {
     try {
       await api.endQuiz(quizId, userId, allAnswers).then(response => {
-        console.log('this is all answers', allAnswers);
-        if (response?.status === 200) {
+        if (quizInfo && response && response.status === 200) {
           navigation.navigate('EndScreen', {
             quizId: quizInfo.id,
             score: response.data,
@@ -182,7 +187,9 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
               </TouchableOpacity>
             )}
             <Timer time={quizInfo?.time} onSubmit={onSubmit} />
-            {quizInfo.questions[index].type.toLowerCase() !== 'text' ? (
+            {quizInfo &&
+            quizInfo.questions &&
+            quizInfo.questions[index].type.toLowerCase() !== 'text' ? (
               flagHelp ? (
                 <Icon name="star-half-o" size={40} color="gray" />
               ) : (
@@ -195,7 +202,9 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           <View className="bg-white w-[90%] m-auto rounded-xl">
             {flag ? (
               <Text className="self-center text-[20px] font-bold">
-                {quizInfo?.questions[index].hint}
+                {quizInfo &&
+                  quizInfo.questions &&
+                  quizInfo?.questions[index].hint}
               </Text>
             ) : null}
 

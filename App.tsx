@@ -21,7 +21,10 @@ export const AnswersContext = createContext<{
 });
 
 const AppProvider = ({children}: any) => {
-  const [allAnswers, setAllAnswers] = useState<string[]>([]);
+  const [allAnswers, setAllAnswers] = useState<
+    {questionId: any; text: any; correct: boolean}[]
+  >([]);
+
   const [quizInfo, setQuizInfo] = useState<QuizInfoInterface>();
   const [checked, setChecked] = useState<string>('');
   const [writtenAnswer, setWrittenAnswer] = useState('');

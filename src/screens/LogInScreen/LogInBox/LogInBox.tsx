@@ -41,6 +41,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
   const handleGuestLogin = () => {
     setUserId(null);
     setIsGuest(true);
+    setUserId(null);
     navigation.navigate('Home');
   };
 

@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext, useCallback} from 'react';
 import {
   ScrollView,
   Modal,
@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Text,
+  Image,
 } from 'react-native';
 
 import Heading from '../../feature/Heading/Heading';
@@ -16,6 +17,9 @@ import Cards from '../../feature/Cards/Cards';
 import CategoriesPopup from './CategoriesPopup/CategoriesPopup';
 import api from '../../api/methods';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {AnswersContext} from '../../../App';
+import {useFocusEffect} from '@react-navigation/native';
+const SadSmiley = require('../../assets/sad.png');
 
 interface UserScreenProps {
   navigation: any;
@@ -37,20 +41,28 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   const [search, setSearch] = useState<string>('');
   const [visibleLoader, setVisibleLoader] = useState(true);
   const [listing, setListing] = useState([]);
+  const {userId} = useContext(AnswersContext);
+
+  const getQuizzes = async userId => {
+    const response = await api.getQuizzes(userId);
+    setQuizInfo(response);
+    setVisibleLoader(false);
+  };
 
   useEffect(() => {
-    const getQuizzes = async () => {
-      const response = await api.getQuizzes();
-      setQuizInfo(response);
-      setVisibleLoader(false);
-    };
     const getCategories = async () => {
       const response = await api.getCategories();
       setCategories(response);
     };
-    getQuizzes();
+    getQuizzes(userId);
     getCategories();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getQuizzes(userId);
+    }, []),
+  );
 
   const OpenCategory = () => {
     setModalVisible(!modalVisible);
@@ -143,7 +155,18 @@ const UserScreen = ({navigation}: UserScreenProps) => {
             />
           </View>
         ) : null}
-        {cardList}
+        {cardList.length > 0 ? (
+          cardList
+        ) : (
+          <View className="flex items-center mt-[25px]">
+            <Text className="text-[24px] text-secondary">
+              Quizzes not found
+            </Text>
+            <View className="w-[300px] h-[300px] mt-[50px]">
+              <Image className="w-full h-full" source={SadSmiley}></Image>
+            </View>
+          </View>
+        )}
         <Modal
           animationType="slide"
           transparent={true}

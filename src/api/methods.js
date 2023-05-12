@@ -14,9 +14,9 @@ const logIn = async (username, password) => {
   }
 };
 
-const getQuizzes = async () => {
+const getQuizzes = async id => {
   try {
-    const response = await axios.get(`${url}/api/quizzes`, {});
+    const response = await axios.get(`${url}/api/quizzes/visible/${id}`, {});
     return response.data;
   } catch (error) {
     console.log(error.message);
