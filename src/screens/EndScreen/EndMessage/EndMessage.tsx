@@ -13,8 +13,6 @@ interface EndMessageProps {
 const EndMessage = ({navigation, Component, msg, quizId}: EndMessageProps) => {
   const {isLoadingScoreboard} = useContext(AnswersContext);
 
-  console.log(msg);
-
   return (
     <View className="bg-secondary rounded-[70px] flex flex-column items-center m-4 p-2">
       <Text className="text-primary font-bold text-[32px]">{msg.title}</Text>

@@ -24,7 +24,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {scoreboard, isInvite, inviteId, setScoreboard, isGuest} =
     useContext(AnswersContext);
   const [message, setMessage] = useState({});
-  const [result, setResult] = useState('guest');
+  const [result, setResult] = useState('finishedQuiz');
 
   const getScoreboard = (quizId: string) => {
     api.getScoreboard(quizId).then(response => {
@@ -37,6 +37,10 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   };
   useEffect(() => {
     getScoreboard(quizId);
+
+    return () => {
+      setScoreboard([]);
+    };
   }, []);
 
   useEffect(() => {
