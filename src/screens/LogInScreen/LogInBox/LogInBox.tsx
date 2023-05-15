@@ -33,7 +33,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
 
   useEffect(() => {
     if (isLoggedIn === true) {
-      command();
+      // command();
       setIsLoggedIn(false);
     }
   }, [isLoggedIn]);

@@ -11,9 +11,15 @@ interface HeadingProps {
   navigation: any;
   iconName: boolean;
   isInvitationShown?: boolean;
+  logo?: boolean;
 }
 
-const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
+const Heading = ({
+  navigation,
+  iconName,
+  isInvitationShown,
+  logo,
+}: HeadingProps) => {
   const {isGuest, setIsGuest} = useContext(AnswersContext);
 
   const handleLogout = async () => {
@@ -24,7 +30,6 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
           onPress: async () => {
             await AsyncStorage.removeItem('username');
             await AsyncStorage.removeItem('password');
-            await AsyncStorage.removeItem('timer');
             if (isGuest === true) {
               setIsGuest(false);
             }
@@ -39,15 +44,12 @@ const Heading = ({navigation, iconName, isInvitationShown}: HeadingProps) => {
       ]);
     } else {
       navigation.navigate('LogIn');
-      async () => {
-        await AsyncStorage.removeItem('timer');
-      };
       setIsGuest(false);
     }
   };
   return (
     <View className="flex flex-row items-center justify-around my-[30px] bg-primary">
-      <Title styles="h-[70px] w-[70px]" />
+      <Title logo={logo} styles="h-[70px] w-[70px]" />
       <View className="ml-[-30px]">
         {!isGuest && isInvitationShown ? (
           iconName ? (

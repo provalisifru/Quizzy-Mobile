@@ -12,7 +12,7 @@ export const SignInScreen = ({navigation}: LogInScreen) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View className="bg-primary h-full">
         <View className="flex flex-row  justify-center items-center m-[50px]">
-          <Title styles="w-[150px] h-[150px]" />
+          <Title logo={true} styles="w-[150px] h-[150px]" />
         </View>
         <LogInBox navigation={navigation} />
       </View>

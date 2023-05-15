@@ -79,18 +79,18 @@ const UserScreen = ({navigation}: UserScreenProps) => {
   };
 
   useEffect(() => {
-    setListing(showOnlyTenQuizzes(quizInfo));
+    if (quizInfo) setListing(showOnlyTenQuizzes(quizInfo));
+    else null;
   }, [quizInfo]);
 
   useEffect(() => {
     let quizzes: any[] = [];
+    let list;
     if (chosenCategory !== '' && search !== '') {
-      setListing(
-        showOnlyTenQuizzes(
-          listing.filter(quiz => quiz.category === chosenCategory),
-        ),
+      list = showOnlyTenQuizzes(
+        quizInfo.filter(quiz => quiz.category === chosenCategory),
       );
-      listing.forEach(quiz => {
+      list.forEach(quiz => {
         if (quiz.name?.toLowerCase().includes(search.toLowerCase())) {
           quizzes.push(quiz);
         }
@@ -126,6 +126,7 @@ const UserScreen = ({navigation}: UserScreenProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <ScrollView className="h-full bg-primary flex flex-column">
         <Heading
+          logo={false}
           navigation={navigation}
           iconName={true}
           isInvitationShown={true}

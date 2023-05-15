@@ -23,8 +23,10 @@ const EndFunction = ({navigation, quizId}: EndFunctionProps) => {
         if (response?.status === 200) {
           Toast.show(`${response.data}!`, 10);
           setFriendUsername('');
+        } else if (response === 'Request failed with status code 503') {
+          Toast.show(`User already invited!`, 10);
         } else {
-          Toast.show("User with that username doesn't exist!", 10);
+          Toast.show(`User doesn't exist!`, 10);
         }
       });
     }

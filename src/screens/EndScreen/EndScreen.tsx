@@ -24,7 +24,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {scoreboard, isInvite, inviteId, setScoreboard, isGuest} =
     useContext(AnswersContext);
   const [message, setMessage] = useState({});
-  const [result, setResult] = useState('finishedQuiz');
+  const [result, setResult] = useState('guest');
 
   const getScoreboard = (quizId: string) => {
     api.getScoreboard(quizId).then(response => {
@@ -100,13 +100,17 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
         setMessage({
           title: 'Congratulations',
           message: `You’ve scored ${score} right answers on this quiz! In order to submit your score to scoreboard and invite your friends you need to Login!`,
+          icon: '☕',
+          isInvite: true,
         });
-      default:
+        break;
+      case 'finishedQuiz':
         setMessage({
           title: 'Nice!',
           message: `You’ve scored ${score} right answers on this quiz! Go on, call your friend to play with you and see who’s better!`,
           isInvite: false,
         });
+        break;
     }
   }, [scoreboard]);
 
@@ -114,6 +118,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View className="bg-primary h-full">
         <Heading
+          logo={false}
           navigation={navigation}
           iconName={false}
           isInvitationShown={false}

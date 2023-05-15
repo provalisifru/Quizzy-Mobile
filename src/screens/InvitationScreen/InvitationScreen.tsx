@@ -13,6 +13,7 @@ const InvitationScreen = ({navigation}: InvitationScreenProps) => {
   return (
     <View className="bg-primary v-full h-full">
       <Heading
+        logo={false}
         navigation={navigation}
         iconName={false}
         isInvitationShown={true}

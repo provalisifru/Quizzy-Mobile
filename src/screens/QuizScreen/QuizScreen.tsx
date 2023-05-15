@@ -38,6 +38,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
           navigation={navigation}
           iconName={false}
           isInvitationShown={false}
+          logo={false}
         />
         <View className="bg-secondary rounded-xl m-2">
           <Text className="text-black font-bold self-center m-2 text-[28px]">
