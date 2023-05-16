@@ -42,7 +42,7 @@ const QuizScreen = ({navigation}: QuizScreenProps) => {
         />
         <View className="bg-secondary rounded-xl m-2">
           <Text className="text-black font-bold self-center m-2 text-[28px]">
-            Football players quiz
+            {quizInfo?.name}
           </Text>
           <View className="flex flex-row items-center m-auto mb-6">
             {hintUsed ? (
