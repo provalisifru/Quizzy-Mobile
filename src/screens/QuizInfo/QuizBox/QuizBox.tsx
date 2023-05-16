@@ -29,6 +29,7 @@ const QuizBox = ({data, navigation}: QuizBoxProps) => {
   useEffect(() => {
     if (isInvite) {
       setQuizInfo(data);
+      setUnavailable(false);
     } else {
       getQuizInfo(data.id ?? '', (success, data) => {
         if (success) {

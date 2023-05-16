@@ -1,24 +1,28 @@
 import {Image} from 'react-native';
 
 const CardImage = ({category, classNameText}) => {
-  const FootballPhoto = require('./assets/sport.jpg');
-  const GeographyPhoto = require('./assets/geography.png');
-  const FlagsPhoto = require('./assets/flags.jpg');
+  const SportPhoto = require('./assets/sport.jpg');
+  const GeographyPhoto = require('./assets/geography.jpg');
+  const SoftlabPhoto = require('./assets/softlab.png');
+  const ProgrammingPhoto = require('./assets/programming.jpeg');
 
   var imgSource = '';
 
   switch (category.toLowerCase()) {
     case 'sport':
-      imgSource = FootballPhoto;
+      imgSource = SportPhoto;
       break;
     case 'geography':
       imgSource = GeographyPhoto;
       break;
-    case 'flags':
-      imgSource = FlagsPhoto;
+    case 'softlab':
+      imgSource = SoftlabPhoto;
+      break;
+    case 'programming':
+      imgSource = ProgrammingPhoto;
       break;
     default:
-      imgSource = FootballPhoto;
+      imgSource = SportPhoto;
   }
   return <Image className={classNameText} source={imgSource} />;
 };

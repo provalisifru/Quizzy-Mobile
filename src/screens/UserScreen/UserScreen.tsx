@@ -158,6 +158,8 @@ const UserScreen = ({navigation}: UserScreenProps) => {
         ) : null}
         {cardList.length > 0 ? (
           cardList
+        ) : visibleLoader ? (
+          ''
         ) : (
           <View className="flex items-center mt-[25px]">
             <Text className="text-[24px] text-secondary">
