@@ -81,6 +81,7 @@ const LogInBox = ({navigation}: LogInBoxProps) => {
           placeholder="Enter password..."
           setState={setPassword}
           styles={'m-2 px-[20px] bg-white rounded-[60px]'}
+          secureTextEntry={true}
         />
         <AppButton
           onPress={command}

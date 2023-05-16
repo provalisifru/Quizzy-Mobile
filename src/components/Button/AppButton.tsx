@@ -6,11 +6,19 @@ interface ButtonProps {
   onPress?: () => void;
   text?: string;
   textStyle?: string;
+  isDisabled?: boolean;
 }
 
-const AppButton = ({styles, onPress, text = '', textStyle}: ButtonProps) => {
+const AppButton = ({
+  isDisabled,
+  styles,
+  onPress,
+  text = '',
+  textStyle,
+}: ButtonProps) => {
   return (
     <TouchableOpacity
+      disabled={isDisabled}
       activeOpacity={0.5}
       onPress={onPress}
       className={`m-1 p-2 rounded-xl ${styles}`}>

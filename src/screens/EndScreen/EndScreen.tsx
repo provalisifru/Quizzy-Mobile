@@ -24,7 +24,8 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   const {scoreboard, isInvite, inviteId, setScoreboard, isGuest} =
     useContext(AnswersContext);
   const [message, setMessage] = useState({});
-  const [result, setResult] = useState('finishedQuiz');
+  const [result, setResult] = useState('');
+  const [resultState, setResultState] = useState('');
 
   const getScoreboard = (quizId: string) => {
     api.getScoreboard(quizId).then(response => {
@@ -46,25 +47,23 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
   useEffect(() => {
     if (isGuest) {
       setResult('guest');
-    }
-    if (!scoreboard && !scoreboard.hasOwnProperty('score')) {
-      return;
-    }
-    if (scoreboard.length > 0 || scoreboard.length === 0) {
-      if (score >= scoreboard?.[0]?.score) {
-        setResult('highScore');
-      }
-    }
-
-    if (isInvite) {
+    } else if (isInvite) {
       if (scoreboard.length > 0) {
         const inviteScore = scoreboard.find(score => score.userId === inviteId);
         if (score > inviteScore.score) setResult('win');
         else if (score < inviteScore.score) setResult('lost');
         else setResult('tie');
       }
+    } else {
+      if (scoreboard.length > 0 || scoreboard.length === 0) {
+        if (score >= scoreboard?.[0]?.score) {
+          setResult('highScore');
+        } else setResult('finishedQuiz');
+      }
     }
+  }, [scoreboard]);
 
+  useEffect(() => {
     switch (result as string) {
       case 'win':
         setMessage({
@@ -78,8 +77,9 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
       case 'lost':
         setMessage({
           title: 'Oh no, you lost!',
-          message:
-            'Seems like your friend knows more than you do, more luck next time! No cake for you. 😓',
+          message: `Seems like your friend knows more than you do, more luck next time! No cake for you. 😓 You got ${score} points while your friend got ${
+            scoreboard.find(score => score.userId === inviteId).score
+          }`,
           icon: '😭',
           isInvite: true,
         });
@@ -116,7 +116,7 @@ const EndScreen = ({navigation, route}: EndScreenProps) => {
         });
         break;
     }
-  }, [scoreboard]);
+  }, [result]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

@@ -7,9 +7,11 @@ interface InputProps {
   value?: string;
   setState?: (str: string) => void;
   onFocus?: any;
+  secureTextEntry?: boolean;
 }
 
 const Input = ({
+  secureTextEntry = false,
   placeholder,
   styles,
   value,
@@ -24,6 +26,7 @@ const Input = ({
       placeholder={placeholder}
       className={`text-[24px] ${styles}`}
       placeholderTextColor={'#AAAAAA'}
+      secureTextEntry={secureTextEntry}
     />
   );
 };

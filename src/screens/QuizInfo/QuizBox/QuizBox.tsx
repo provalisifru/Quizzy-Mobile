@@ -17,8 +17,10 @@ interface QuizBoxProps {
 
 const QuizBox = ({data, navigation}: QuizBoxProps) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [unavailable, setUnavailable] = useState(true);
 
-  const {getQuizInfo, setQuizInfo, isInvite} = useContext(AnswersContext);
+  const {getQuizInfo, quizInfo, setQuizInfo, isInvite} =
+    useContext(AnswersContext);
 
   const OpenInstructions = () => {
     setModalVisible(!modalVisible);
@@ -28,12 +30,17 @@ const QuizBox = ({data, navigation}: QuizBoxProps) => {
     if (isInvite) {
       setQuizInfo(data);
     } else {
-      getQuizInfo(data.id);
+      getQuizInfo(data.id ?? '', (success, data) => {
+        if (success) {
+          setQuizInfo(data);
+          setUnavailable(false);
+        } else return;
+      });
     }
   }, []);
 
   const startQuiz = () => {
-    navigation.navigate('Quiz', {quizInfo: data});
+    navigation.navigate('Quiz', {quizInfo: quizInfo});
   };
 
   return (
@@ -68,7 +75,9 @@ const QuizBox = ({data, navigation}: QuizBoxProps) => {
             onPress={startQuiz}
             text="START"
             textStyle="text-white text-[25px]"
-            styles="bg-primary p-[5px] mx-auto w-[130px] text-[25px] rounded-[60px]"
+            styles={`bg-primary p-[5px] mx-auto w-[130px] text-[25px] rounded-[60px]
+            `}
+            isDisabled={unavailable}
           />
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <TextButton navigation={navigation} text={'Back to quizzes'} />

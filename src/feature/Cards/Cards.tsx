@@ -12,7 +12,7 @@ interface CardsProps {
 const Cards = ({title, description, category, onPress}: CardsProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-      <View className="flex flex-column items-center bg-secondary h-[290px] m-3 p-4 rounded-xl">
+      <View className="flex flex-column items-center bg-secondary m-3 p-4 rounded-xl">
         <CardImage
           classNameText="w-[90%] h-[150px] rounded-xl"
           category={category}
